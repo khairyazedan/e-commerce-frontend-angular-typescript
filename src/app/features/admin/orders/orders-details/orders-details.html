@@ -1,0 +1,231 @@
+<!-- order-details.component.html
+Rendered inside the admin layout (<router-outlet>).
+Field names follow orderSchema. The shipping address fields are placeholders:
+rename them to match your address.model.js. -->
+
+<nav aria-label="breadcrumb" class="small text-ut-mid text-uppercase mb-1" style="font-size:.6875rem;letter-spacing:.1em">
+Admin <span class="mx-1">&rsaquo;</span>
+<a href="/admin/orders" class="text-ut-mid text-decoration-none">Orders</a>
+<span class="mx-1">&rsaquo;</span> <span class="fw-semibold">Order details</span>
+</nav>
+
+<!-- header -->
+<div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+<div>
+<div class="d-flex flex-wrap align-items-center gap-3 mb-1">
+ <h1 class="ut-title mb-0">ORD-LK3F9A2-7B1C4E</h1>
+ <span class="ut-status ut-status-processing">PROCESSING</span>
+</div>
+<p class="text-ut-mid small mb-0">Placed on 24 Oct, 2026 at 10:42 AM</p>
+</div>
+<div class="d-flex flex-wrap gap-2">
+<a href="/admin/orders" class="btn btn-ut-outline"><i class="bi bi-arrow-left me-1"></i> Back to orders</a>
+<button type="button" class="btn btn-ut-outline"><i class="bi bi-printer me-1"></i> Print invoice</button>
+<button type="button" class="btn btn-ut-outline text-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal">
+ <i class="bi bi-x-circle me-1"></i> Cancel order
+</button>
+</div>
+</div>
+
+<div class="row g-4">
+
+<!-- ================= LEFT COLUMN ================= -->
+<div class="col-12 col-xl-8 d-flex flex-column gap-4">
+
+<!-- Items -->
+<section class="ut-card overflow-hidden">
+ <div class="d-flex align-items-center justify-content-between px-3 px-md-4 py-3 border-bottom">
+   <h2 class="ut-card-title mb-0">Items</h2>
+   <span class="text-ut-mid small">3 items</span>
+ </div>
+ <div class="table-responsive">
+   <table class="table ut-table align-middle">
+     <thead>
+       <tr><th>Product</th><th>Unit price</th><th class="text-center">Qty</th><th class="text-end">Subtotal</th></tr>
+     </thead>
+     <tbody>
+       <tr>
+         <td>
+           <div class="d-flex align-items-center gap-3">
+             <img src="assets/images/products/tee.jpg" alt="" width="44" height="44" class="rounded object-fit-cover flex-none">
+             <a href="/admin/products/1" class="fw-bold text-dark text-decoration-none">After Hours Oversized Tee</a>
+           </div>
+         </td>
+         <td>1,250 EGP</td><td class="text-center">2</td><td class="text-end fw-semibold">2,500 EGP</td>
+       </tr>
+       <tr>
+         <td>
+           <div class="d-flex align-items-center gap-3">
+             <img src="assets/images/products/jacket.jpg" alt="" width="44" height="44" class="rounded object-fit-cover flex-none">
+             <a href="/admin/products/2" class="fw-bold text-dark text-decoration-none">Utility Zip Jacket</a>
+           </div>
+         </td>
+         <td>3,850 EGP</td><td class="text-center">1</td><td class="text-end fw-semibold">3,850 EGP</td>
+       </tr>
+       <tr>
+         <td>
+           <div class="d-flex align-items-center gap-3">
+             <img src="assets/images/products/jeans.jpg" alt="" width="44" height="44" class="rounded object-fit-cover flex-none">
+             <a href="/admin/products/3" class="fw-bold text-dark text-decoration-none">Indigo Wide-Leg Jeans</a>
+           </div>
+         </td>
+         <td>2,950 EGP</td><td class="text-center">1</td><td class="text-end fw-semibold">2,950 EGP</td>
+       </tr>
+     </tbody>
+   </table>
+ </div>
+
+ <!-- price summary -->
+ <div class="border-top bg-ut-soft px-3 px-md-4 py-3">
+   <div class="ms-auto" style="max-width:20rem">
+     <div class="d-flex justify-content-between small mb-2"><span class="text-ut-mid">Items price</span><span class="fw-semibold">9,300 EGP</span></div>
+     <div class="d-flex justify-content-between small mb-2"><span class="text-ut-mid">Shipping</span><span class="fw-semibold">60 EGP</span></div>
+     <div class="d-flex justify-content-between small mb-2"><span class="text-ut-mid">Tax</span><span class="fw-semibold">130 EGP</span></div>
+     <hr class="my-2">
+     <div class="d-flex justify-content-between align-items-center">
+       <span class="ut-card-title">Total</span>
+       <span class="font-display fs-5">9,490 EGP</span>
+     </div>
+   </div>
+ </div>
+</section>
+
+<!-- Status history -->
+<section class="ut-card p-3 p-md-4">
+ <h2 class="ut-card-title mb-3">Status history</h2>
+ <ol class="list-unstyled mb-0 ms-2 border-start ps-4">
+   <li class="position-relative pb-4">
+     <span class="position-absolute rounded-circle bg-ut-orange" style="width:.75rem;height:.75rem;left:calc(-1.5rem - 6px - 1px);top:.3rem"></span>
+     <div class="d-flex flex-wrap align-items-center gap-2">
+       <span class="ut-status ut-status-processing">PROCESSING</span>
+       <small class="text-ut-mid">24 Oct, 2026 &middot; 11:15 AM</small>
+     </div>
+     <p class="small mb-0 mt-1">Payment confirmed. Preparing items for dispatch.</p>
+   </li>
+   <li class="position-relative">
+     <span class="position-absolute rounded-circle" style="width:.75rem;height:.75rem;left:calc(-1.5rem - 6px - 1px);top:.3rem;background:var(--ut-gray-mid)"></span>
+     <div class="d-flex flex-wrap align-items-center gap-2">
+       <span class="ut-status ut-status-pending">PENDING</span>
+       <small class="text-ut-mid">24 Oct, 2026 &middot; 10:42 AM</small>
+     </div>
+     <p class="small mb-0 mt-1">Order placed</p>
+   </li>
+ </ol>
+</section>
+
+<!-- Cancellation (show only when the order is cancelled) -->
+<section class="ut-card p-3 p-md-4 border-danger d-none">
+ <h2 class="ut-card-title text-danger mb-3">Cancellation</h2>
+ <dl class="row mb-0 small">
+   <dt class="col-sm-4 text-ut-mid fw-semibold">Cancelled at</dt><dd class="col-sm-8">24 Oct, 2026 &middot; 02:10 PM</dd>
+   <dt class="col-sm-4 text-ut-mid fw-semibold">Reason</dt><dd class="col-sm-8 mb-0">Customer asked to cancel.</dd>
+ </dl>
+</section>
+</div>
+
+<!-- ================= RIGHT COLUMN ================= -->
+<div class="col-12 col-xl-4 d-flex flex-column gap-4">
+
+<!-- Update status -->
+<section class="ut-card p-3 p-md-4">
+ <h2 class="ut-card-title mb-3">Update status</h2>
+ <form novalidate>
+   <div class="mb-3">
+     <label class="ut-label" for="orderStatus">Order status</label>
+     <select id="orderStatus" name="orderStatus" class="form-select ut-input">
+       <option value="pending">Pending</option>
+       <option value="processing" selected>Processing</option>
+       <option value="shipping">Shipping</option>
+       <option value="out-for-delivery">Out for delivery</option>
+       <option value="delivered">Delivered</option>
+       <option value="cancelled">Cancelled</option>
+       <option value="returned">Returned</option>
+     </select>
+   </div>
+   <div class="mb-3">
+     <label class="ut-label" for="statusComment">Comment</label>
+     <textarea id="statusComment" name="comment" rows="3" class="ut-input form-control"
+               placeholder="Add a note for the status history"></textarea>
+   </div>
+   <button type="submit" class="btn btn-ut w-100">UPDATE STATUS</button>
+ </form>
+</section>
+
+<!-- Customer -->
+<section class="ut-card p-3 p-md-4">
+ <h2 class="ut-card-title mb-3">Customer</h2>
+ <div class="d-flex align-items-center gap-3 mb-3">
+   <span class="ut-avatar">NH</span>
+   <div class="lh-sm min-w-0">
+     <a href="/admin/customers/1" class="fw-bold text-dark text-decoration-none">Nour Hassan</a>
+     <div class="small text-ut-mid text-truncate">nour.hassan@email.com</div>
+   </div>
+ </div>
+ <a href="mailto:nour.hassan@email.com" class="btn btn-ut-outline btn-sm w-100"><i class="bi bi-envelope me-1"></i> Email customer</a>
+</section>
+
+<!-- Shipping address -->
+<section class="ut-card p-3 p-md-4">
+ <h2 class="ut-card-title mb-3">Shipping address</h2>
+ <address class="small mb-0 lh-lg">
+   <span class="fw-bold d-block">Nour Hassan</span>
+   12 Tahrir Street, Apt 5<br>
+   Dokki, Giza 12311<br>
+   Egypt
+   <span class="ut-address-phone d-block mt-1"><i class="bi bi-telephone me-1"></i>+20 100 000 0000</span>
+ </address>
+</section>
+
+<!-- Payment -->
+<section class="ut-card p-3 p-md-4">
+ <h2 class="ut-card-title mb-3">Payment</h2>
+ <dl class="row mb-0 small gy-2">
+   <dt class="col-5 text-ut-mid fw-semibold">Provider</dt><dd class="col-7 mb-0">Paymob</dd>
+   <dt class="col-5 text-ut-mid fw-semibold">Status</dt><dd class="col-7 mb-0"><span class="ut-status ut-status-paid">PAID</span></dd>
+   <dt class="col-5 text-ut-mid fw-semibold">Paid at</dt><dd class="col-7 mb-0">24 Oct, 2026 &middot; 10:44 AM</dd>
+ </dl>
+</section>
+
+<!-- Tracking -->
+<section class="ut-card p-3 p-md-4">
+ <h2 class="ut-card-title mb-3">Tracking</h2>
+ <form novalidate>
+   <div class="mb-3">
+     <label class="ut-label" for="carrier">Carrier</label>
+     <input type="text" id="carrier" name="carrier" class="ut-input form-control" placeholder="e.g. Bosta">
+   </div>
+   <div class="mb-3">
+     <label class="ut-label" for="trackingNum">Tracking number</label>
+     <input type="text" id="trackingNum" name="trackingNum" class="ut-input form-control" placeholder="Enter tracking number">
+   </div>
+   <div class="mb-3">
+     <label class="ut-label" for="estimatedDeliveryDate">Estimated delivery date</label>
+     <input type="date" id="estimatedDeliveryDate" name="estimatedDeliveryDate" class="ut-input form-control">
+   </div>
+   <button type="submit" class="btn btn-ut-outline w-100">Save tracking</button>
+ </form>
+</section>
+</div>
+</div>
+
+<!-- ================= CANCEL MODAL ================= -->
+<div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered">
+<form class="modal-content" novalidate>
+ <div class="modal-header border-0 pb-0">
+   <h2 class="ut-card-title mb-0" id="cancelOrderTitle">Cancel this order?</h2>
+   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+ </div>
+ <div class="modal-body">
+   <p class="small text-ut-mid">The customer will see the order as cancelled. Add the reason so it is saved with the order.</p>
+   <label class="ut-label" for="cancellationReason">Cancellation reason</label>
+   <textarea id="cancellationReason" name="cancellationReason" rows="3" class="ut-input form-control" required
+             placeholder="e.g. Customer asked to cancel"></textarea>
+ </div>
+ <div class="modal-footer border-0 pt-0">
+   <button type="button" class="btn btn-ut-outline" data-bs-dismiss="modal">Keep order</button>
+   <button type="submit" class="btn btn-ut">CANCEL ORDER</button>
+ </div>
+</form>
+</div>
+</div>

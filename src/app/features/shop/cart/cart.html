@@ -1,0 +1,119 @@
+<!-- pages/cart/cart.html -->
+<section class="container py-5">
+
+  <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+    <div>
+      <h1 class="ut-section-title mb-1">YOUR CART</h1>
+      <p class="text-ut-mid small mb-0">{{ cart.count() }} {{ cart.count() === 1 ? 'item' : 'items' }}</p>
+    </div>
+    @if (!cart.isEmpty()) {
+      <button type="button" class="btn btn-ut-outline btn-sm text-danger" (click)="clear()" [disabled]="cart.loading()">
+        <i class="bi bi-trash me-1"></i> Clear cart
+      </button>
+    }
+  </div>
+
+  @if (cart.notices().length) {
+    <div class="alert alert-warning d-flex align-items-start gap-2 small" role="alert">
+      <i class="bi bi-exclamation-triangle-fill mt-1"></i>
+      <ul class="list-unstyled mb-0">
+        @for (notice of cart.notices(); track notice) {
+          <li>{{ notice }}</li>
+        }
+      </ul>
+    </div>
+  }
+
+  @if (cart.error()) {
+    <p class="msg mb-3" role="alert">{{ cart.error() }}</p>
+  }
+
+  @if (cart.isEmpty()) {
+    <div class="ut-card text-center p-5">
+      <i class="bi bi-bag fs-1 text-ut-mid"></i>
+      <h2 class="ut-section-title mt-3 mb-2">YOUR CART IS EMPTY</h2>
+      <p class="text-ut-mid mb-4">Add something you like and it will show up here.</p>
+      <a routerLink="/products" class="btn btn-ut">START SHOPPING</a>
+    </div>
+  } @else {
+    <div class="row g-4">
+
+      <!-- items -->
+      <div class="col-12 col-lg-8">
+        <div class="ut-card overflow-hidden">
+          @for (line of cart.items(); track line.productId) {
+            <article class="d-flex flex-wrap align-items-center gap-3 p-3 p-md-4 border-bottom">
+              <a [routerLink]="['/products', line.slug ?? line.productId]" class="ut-product-img flex-none" style="width:6rem;height:6rem">
+                @if (line.imageUrl) {
+                  <img [src]="line.imageUrl" [alt]="line.name" class="w-100 h-100 object-fit-cover">
+                }
+              </a>
+
+              <div class="flex-grow-1 min-w-0" style="min-width:10rem">
+                <a [routerLink]="['/products', line.slug ?? line.productId]" class="fw-bold text-dark text-decoration-none d-block">{{ line.name }}</a>
+                <div class="small text-ut-mid">{{ line.price | number }} EGP each</div>
+                @if (line.maxQuantity < 10) {
+                  <div class="small text-ut-orange fw-semibold">Only {{ line.maxQuantity }} left in stock</div>
+                } @else {
+                  <div class="small text-ut-mid">Max 10 per order</div>
+                }
+              </div>
+
+              <div class="input-group flex-nowrap" style="width:9.5rem">
+                <button type="button" class="btn btn-ut-outline px-3" aria-label="Decrease quantity"
+                        (click)="decrease(line)" [disabled]="cart.loading() || line.quantity <= 1">
+                  <i class="bi bi-dash"></i>
+                </button>
+                <input type="number" class="ut-input form-control text-center px-1" min="1" [max]="line.maxQuantity"
+                       [value]="line.quantity" (change)="onQuantityInput(line, $event)" aria-label="Quantity">
+                <button type="button" class="btn btn-ut-outline px-3" aria-label="Increase quantity"
+                        (click)="increase(line)" [disabled]="cart.loading() || line.quantity >= line.maxQuantity">
+                  <i class="bi bi-plus"></i>
+                </button>
+              </div>
+
+              <div class="text-end ms-auto" style="min-width:6rem">
+                <div class="fw-bold">{{ line.price * line.quantity | number }} EGP</div>
+                <button type="button" class="btn btn-link btn-sm p-0 ut-remove-btn text-decoration-none"
+                        (click)="remove(line)" [disabled]="cart.loading()">
+                  <i class="bi bi-x-lg me-1"></i>Remove
+                </button>
+              </div>
+            </article>
+          }
+        </div>
+
+        <a routerLink="/products" class="ut-link d-inline-block mt-3 small"><i class="bi bi-arrow-left me-1"></i> Continue shopping</a>
+      </div>
+
+      <!-- summary -->
+      <div class="col-12 col-lg-4">
+        <aside class="ut-card p-3 p-md-4">
+          <h2 class="ut-card-title mb-3">Order summary</h2>
+
+          <div class="d-flex justify-content-between small mb-2">
+            <span class="text-ut-mid">Items ({{ cart.count() }})</span>
+            <span class="fw-semibold">{{ cart.subtotal() | number }} EGP</span>
+          </div>
+          <div class="d-flex justify-content-between small mb-2">
+            <span class="text-ut-mid">Shipping</span><span class="text-ut-mid">Calculated at checkout</span>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <span class="ut-card-title">Total</span>
+            <span class="font-display fs-4">{{ cart.subtotal() | number }} EGP</span>
+          </div>
+
+          @if (cart.isLoggedIn()) {
+            <a routerLink="/checkout" class="btn btn-ut w-100">CHECKOUT</a>
+          } @else {
+            <a routerLink="/auth/login" class="btn btn-ut w-100">LOG IN TO CHECKOUT</a>
+            <div class="bg-ut-soft rounded-3 p-3 small mt-3">
+              Your cart is saved on this device. Log in and it will move to your account.
+            </div>
+          }
+        </aside>
+      </div>
+    </div>
+  }
+</section>

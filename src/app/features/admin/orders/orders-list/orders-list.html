@@ -1,0 +1,98 @@
+<!-- orders.component.html -->
+<nav aria-label="breadcrumb" class="small text-ut-mid text-uppercase mb-1" style="font-size:.6875rem;letter-spacing:.1em">
+  Admin <span class="mx-1">&rsaquo;</span> <span class="fw-semibold">Orders</span>
+</nav>
+
+<div class="mb-4">
+  <h1 class="ut-title mb-1">ORDERS</h1>
+  <p class="text-ut-mid small mb-0">Track, fulfill, and manage customer orders</p>
+</div>
+
+<!-- status tabs -->
+<div class="ut-tabs mb-3 overflow-x-auto flex-nowrap">
+  <a href="#" class="ut-tab active text-nowrap">All <span class="ut-side-badge bg-ut-soft text-dark ms-1">1284</span></a>
+  <a href="#" class="ut-tab text-nowrap">Pending <span class="ut-side-badge bg-ut-soft text-dark ms-1">16</span></a>
+  <a href="#" class="ut-tab text-nowrap">Processing</a>
+  <a href="#" class="ut-tab text-nowrap">Shipped</a>
+  <a href="#" class="ut-tab text-nowrap">Delivered</a>
+  <a href="#" class="ut-tab text-nowrap">Cancelled</a>
+  <a href="#" class="ut-tab text-nowrap">Returned</a>
+</div>
+
+<!-- filters -->
+<div class="row g-2 mb-3">
+  <div class="col-12 col-lg">
+    <div class="ut-group align-items-center">
+      <i class="bi bi-search ps-3 text-ut-mid"></i>
+      <input type="search" class="ut-input form-control" placeholder="Search order ID or customer...">
+    </div>
+  </div>
+  <div class="col-6 col-lg-auto">
+    <select class="form-select ut-input"><option>All categories</option><option>T-Shirts</option><option>Jackets</option><option>Denim</option><option>Dresses</option><option>Footwear</option></select>
+  </div>
+  <div class="col-6 col-lg-auto">
+    <select class="form-select ut-input"><option>All statuses</option><option>Pending</option><option>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option><option>Returned</option></select>
+  </div>
+  <div class="col-12 col-lg-auto">
+    <button type="button" class="btn btn-ut-outline w-100 h-100"><i class="bi bi-sliders me-1"></i> More filters</button>
+  </div>
+</div>
+
+<div class="ut-card overflow-hidden">
+  <div class="table-responsive">
+    <table class="table ut-table align-middle">
+      <thead>
+        <tr><th>Order</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th><th></th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/admin/orders/UT-3048" class="ut-order-no ut-link">#UT-3048</a></td>
+          <td class="fw-bold">Nour Hassan</td><td class="fw-semibold">4,850 EGP</td>
+          <td><span class="ut-status ut-status-pending">PENDING</span></td>
+          <td>24 Oct, 2026</td>
+          <td class="text-end"><a href="/admin/orders/UT-3048" class="text-ut-mid" aria-label="View order"><i class="bi bi-chevron-right"></i></a></td>
+        </tr>
+        <tr>
+          <td><a href="/admin/orders/UT-3047" class="ut-order-no ut-link">#UT-3047</a></td>
+          <td class="fw-bold">Omar Khaled</td><td class="fw-semibold">7,100 EGP</td>
+          <td><span class="ut-status ut-status-processing">PROCESSING</span></td>
+          <td>24 Oct, 2026</td>
+          <td class="text-end"><a href="/admin/orders/UT-3047" class="text-ut-mid" aria-label="View order"><i class="bi bi-chevron-right"></i></a></td>
+        </tr>
+        <tr>
+          <td><a href="/admin/orders/UT-3046" class="ut-order-no ut-link">#UT-3046</a></td>
+          <td class="fw-bold">Mariam Adel</td><td class="fw-semibold">2,950 EGP</td>
+          <td><span class="ut-status ut-status-transit">SHIPPED</span></td>
+          <td>23 Oct, 2026</td>
+          <td class="text-end"><a href="/admin/orders/UT-3046" class="text-ut-mid" aria-label="View order"><i class="bi bi-chevron-right"></i></a></td>
+        </tr>
+        <tr>
+          <td><a href="/admin/orders/UT-3045" class="ut-order-no ut-link">#UT-3045</a></td>
+          <td class="fw-bold">Youssef Samir</td><td class="fw-semibold">5,300 EGP</td>
+          <td><span class="ut-status ut-status-delivered">DELIVERED</span></td>
+          <td>23 Oct, 2026</td>
+          <td class="text-end"><a href="/admin/orders/UT-3045" class="text-ut-mid" aria-label="View order"><i class="bi bi-chevron-right"></i></a></td>
+        </tr>
+        <tr>
+          <td><a href="/admin/orders/UT-3044" class="ut-order-no ut-link">#UT-3044</a></td>
+          <td class="fw-bold">Salma Tarek</td><td class="fw-semibold">1,250 EGP</td>
+          <td><span class="ut-status bg-secondary-subtle text-secondary-emphasis">RETURNED</span></td>
+          <td>22 Oct, 2026</td>
+          <td class="text-end"><a href="/admin/orders/UT-3044" class="text-ut-mid" aria-label="View order"><i class="bi bi-chevron-right"></i></a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 px-3 py-2 border-top">
+    <small class="text-ut-mid">Showing 1-5 of 128</small>
+    <ul class="pagination pagination-sm mb-0"
+        style="--bs-pagination-color:var(--ut-black);--bs-pagination-active-bg:var(--ut-black);--bs-pagination-active-border-color:var(--ut-black);--bs-pagination-focus-box-shadow:none">
+      <li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous"><i class="bi bi-chevron-left"></i></a></li>
+      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#" aria-label="Next"><i class="bi bi-chevron-right"></i></a></li>
+    </ul>
+  </div>
+</div>

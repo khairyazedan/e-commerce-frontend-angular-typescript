@@ -1,0 +1,38 @@
+<!--
+  Account navbar: plain HTML + Bootstrap 5 + Bootstrap Icons.
+  Dark bar with the brand on the left; store links, search, cart and the profile menu on the right.
+  The menu button (below lg) opens the account sidebar drawer. Needs Bootstrap's JS bundle.
+-->
+<header class="ut-account-nav bg-ut-black sticky-top" data-bs-theme="dark">
+  <div class="d-flex align-items-center h-100 px-3 px-lg-4 gap-3">
+
+    <!-- Opens the sidebar drawer (below lg only) -->
+    <button type="button" class="ut-icon-btn border-0 bg-transparent p-0 d-lg-none"
+            data-bs-toggle="offcanvas" data-bs-target="#accountSidebar"
+            aria-controls="accountSidebar" aria-label="Open account menu">
+      <i class="bi bi-list fs-4"></i>
+    </button>
+
+    <a href="/" class="ut-brand fs-6 text-decoration-none">URBAN<span>THREAD</span></a>
+
+    <nav class="ms-auto d-flex align-items-center gap-3 gap-md-4" aria-label="Store">
+      <a href="/search" class="ut-icon-btn" aria-label="Search"><i class="bi bi-search"></i></a>
+
+      <a href="/cart" class="ut-icon-btn position-relative" aria-label="Cart, 3 items">
+        <i class="bi bi-bag"></i>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-ut-orange">3</span>
+      </a>
+
+      <!-- Profile menu. With a photo, use:
+           <img src="PHOTO_URL" alt="Alex Johnson" class="rounded-circle object-fit-cover" width="32" height="32"> -->
+      <div class="dropdown">
+        <button type="button" class="border-0 bg-transparent p-0" data-bs-toggle="dropdown"
+                aria-expanded="false" aria-label="Account menu">
+          <span class="ut-avatar" style="width: 2rem; height: 2rem; font-size: .75rem;">AJ</span>
+        </button>
+        
+      </div>
+    </nav>
+
+  </div>
+</header>

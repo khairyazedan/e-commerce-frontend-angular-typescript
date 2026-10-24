@@ -1,0 +1,113 @@
+<!--
+    Cart item cards: plain HTML + Bootstrap 5 + Bootstrap Icons, plus the Urban Thread
+    helpers already in your styles.css (ut-label, text-ut-mid, text-ut-orange, font-display).
+    Replace the sample text / image with your product data.
+  -->
+  <section class="d-flex flex-column gap-3" aria-label="Cart items">
+  
+    <!-- Item 1 -->
+    <article class="bg-white border rounded-3 p-3 p-md-4">
+      <div class="d-flex gap-3">
+  
+        <!-- Image -->
+        <a routerLink="#" class="flex-shrink-0">
+          <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=300&h=380&fit=crop&auto=format"
+               alt="Oversized graphic tee"
+               class="rounded-2 object-fit-cover"
+               style="width: 96px; height: 120px;" />
+        </a>
+  
+        <!-- Details -->
+        <div class="flex-grow-1">
+          <p class="ut-label text-ut-mid mb-1">Men · T-Shirts</p>
+          <h3 class="h6 fw-semibold mb-1">
+            <a routerLink="#" class="text-reset text-decoration-none">Oversized Graphic Tee</a>
+          </h3>
+          <p class="small text-ut-mid mb-0">
+            Size: <span class="text-dark fw-medium">L</span>
+            <span class="mx-1">·</span>
+            Color: <span class="text-dark fw-medium">Black</span>
+          </p>
+  
+          <!-- Quantity + price -->
+          <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mt-3">
+  
+            <div class="d-flex align-items-center gap-3">
+              <!-- Quantity stepper -->
+              <div class="d-inline-flex align-items-center border rounded-2 bg-white">
+                <button type="button" class="btn btn-sm px-2" aria-label="Decrease quantity">
+                  <i class="bi bi-dash-lg"></i>
+                </button>
+                <span class="px-2 small fw-semibold text-center" style="min-width: 2rem;" aria-live="polite">2</span>
+                <button type="button" class="btn btn-sm px-2" aria-label="Increase quantity">
+                  <i class="bi bi-plus-lg"></i>
+                </button>
+              </div>
+  
+              <!-- Remove -->
+              <button type="button" class="btn btn-link btn-sm p-0 text-ut-mid text-decoration-none">
+                <i class="bi bi-trash3 me-1"></i>Remove
+              </button>
+            </div>
+  
+            <!-- Price -->
+            <div class="text-end">
+              <div class="small text-ut-mid">$45.00 each</div>
+              <div class="font-display fs-4 lh-1">$90.00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  
+    <!-- Item 2 (low stock) -->
+    <article class="bg-white border rounded-3 p-3 p-md-4">
+      <div class="d-flex gap-3">
+  
+        <a routerLink="#" class="flex-shrink-0">
+          <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=300&h=380&fit=crop&auto=format"
+               alt="Wide-leg striped trousers"
+               class="rounded-2 object-fit-cover"
+               style="width: 96px; height: 120px;" />
+        </a>
+  
+        <div class="flex-grow-1">
+          <p class="ut-label text-ut-mid mb-1">Women · Trousers</p>
+          <h3 class="h6 fw-semibold mb-1">
+            <a routerLink="#" class="text-reset text-decoration-none">Wide-Leg Striped Trousers</a>
+          </h3>
+          <p class="small text-ut-mid mb-1">
+            Size: <span class="text-dark fw-medium">M</span>
+            <span class="mx-1">·</span>
+            Color: <span class="text-dark fw-medium">Green</span>
+          </p>
+          <p class="small fw-semibold text-ut-orange mb-0">Only 2 left in stock</p>
+  
+          <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mt-3">
+  
+            <div class="d-flex align-items-center gap-3">
+              <div class="d-inline-flex align-items-center border rounded-2 bg-white">
+                <button type="button" class="btn btn-sm px-2" aria-label="Decrease quantity">
+                  <i class="bi bi-dash-lg"></i>
+                </button>
+                <span class="px-2 small fw-semibold text-center" style="min-width: 2rem;" aria-live="polite">1</span>
+                <button type="button" class="btn btn-sm px-2" aria-label="Increase quantity">
+                  <i class="bi bi-plus-lg"></i>
+                </button>
+              </div>
+  
+              <button type="button" class="btn btn-link btn-sm p-0 text-ut-mid text-decoration-none">
+                <i class="bi bi-trash3 me-1"></i>Remove
+              </button>
+            </div>
+  
+            <div class="text-end">
+              <div class="small text-ut-mid">$79.00 each</div>
+              <div class="font-display fs-4 lh-1">$79.00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  
+  </section>

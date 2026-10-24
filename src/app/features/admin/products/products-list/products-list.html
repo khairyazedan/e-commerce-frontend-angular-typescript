@@ -1,0 +1,248 @@
+<!-- pages/admin/products/admin-products.html  (rendered inside the admin layout) -->
+<nav aria-label="breadcrumb" class="small text-ut-mid text-uppercase mb-1" style="font-size:.6875rem;letter-spacing:.1em">
+  Admin <span class="mx-1">&rsaquo;</span> <span class="fw-semibold">Products</span>
+</nav>
+
+<div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+  <div>
+    <h1 class="ut-title mb-1">PRODUCTS</h1>
+    <p class="text-ut-mid small mb-0">Manage your product catalog and availability</p>
+  </div>
+  <a routerLink="new" class="btn btn-ut"><i class="bi bi-plus-lg me-1"></i> ADD PRODUCT</a>
+</div>
+
+<!-- filters -->
+<div class="row g-2 mb-2">
+  <div class="col-12 col-lg">
+    <div class="ut-group align-items-center">
+      <i class="bi bi-search ps-3 text-ut-mid"></i>
+      <input #q type="search" class="ut-input form-control" placeholder="Search by name or brand (press Enter)"
+             [value]="query().search ?? ''" (keyup.enter)="onSearch(q.value)">
+    </div>
+  </div>
+  <div class="col-6 col-lg-auto">
+    <select class="form-select ut-input" aria-label="Category" (change)="onSelect('category', $event)">
+      <option value="">All categories</option>
+      @for (c of categories(); track c._id) {
+        <option [value]="c._id" [selected]="query().category === c._id">{{ c.name }}</option>
+      }
+    </select>
+  </div>
+  <div class="col-6 col-lg-auto">
+    <select class="form-select ut-input" aria-label="Status" (change)="onSelect('status', $event)">
+      <option value="">All statuses</option>
+      @for (s of statusOptions; track s.value) {
+        <option [value]="s.value" [selected]="query().status === s.value">{{ s.label }}</option>
+      }
+    </select>
+  </div>
+  <div class="col-12 col-lg-auto">
+    <button type="button" class="btn btn-ut-outline w-100 h-100" data-bs-toggle="collapse" data-bs-target="#moreFilters"
+            aria-expanded="false" aria-controls="moreFilters">
+      <i class="bi bi-sliders me-1"></i> More filters
+      @if (moreFiltersCount()) {
+        <span class="ut-side-badge bg-ut-orange text-white ms-1">{{ moreFiltersCount() }}</span>
+      }
+    </button>
+  </div>
+</div>
+
+<div class="collapse" [class.show]="moreFiltersCount() > 0" id="moreFilters">
+  <div class="ut-card p-3 mb-2">
+    <div class="row g-3 align-items-end">
+      <div class="col-6 col-md-3">
+        <label class="ut-label" for="gender">Gender</label>
+        <select id="gender" class="form-select ut-input" (change)="onSelect('gender', $event)">
+          <option value="">Any</option>
+          @for (g of genderOptions; track g) {
+            <option [value]="g" [selected]="query().gender === g" class="text-capitalize">{{ g }}</option>
+          }
+        </select>
+      </div>
+      <div class="col-6 col-md-3">
+        <label class="ut-label" for="fit">Fit</label>
+        <select id="fit" class="form-select ut-input" (change)="onSelect('fit', $event)">
+          <option value="">Any</option>
+          @for (f of fitOptions; track f) {
+            <option [value]="f" [selected]="query().fit === f" class="text-capitalize">{{ f }}</option>
+          }
+        </select>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="ut-label">Price (EGP)</div>
+        <div class="d-flex align-items-center gap-2">
+          <input #min type="number" min="0" class="ut-input form-control" placeholder="Min" aria-label="Minimum price"
+                 [value]="query().minPrice ?? ''" (keyup.enter)="applyPrice(min.value, max.value)">
+          <span class="text-ut-mid">-</span>
+          <input #max type="number" min="0" class="ut-input form-control" placeholder="Max" aria-label="Maximum price"
+                 [value]="query().maxPrice ?? ''" (keyup.enter)="applyPrice(min.value, max.value)">
+          <button type="button" class="btn btn-ut-outline" (click)="applyPrice(min.value, max.value)">Apply</button>
+        </div>
+      </div>
+      <div class="col-12 col-md-2">
+        <div class="form-check ut-check">
+          <input class="form-check-input" type="checkbox" id="inStock" [checked]="!!query().inStock" (change)="onInStock($event)">
+          <label class="form-check-label" for="inStock">In stock only</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@if (hasFilters()) {
+  <button type="button" class="btn btn-link btn-sm ut-link p-0 mb-2" (click)="clearFilters()">
+    <i class="bi bi-x-lg me-1"></i>Clear all filters
+  </button>
+}
+
+@if (actionError()) {
+  <p class="msg mb-2" role="alert">{{ actionError() }}</p>
+}
+
+<!-- table card -->
+<div class="ut-card overflow-hidden mt-2">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 px-3 py-2 border-bottom">
+    <span class="text-ut-mid small">{{ meta()?.total ?? 0 }} products</span>
+    <div class="d-flex align-items-center gap-2 small text-ut-mid">
+      Sort:
+      <select class="form-select form-select-sm border-0 bg-transparent fw-semibold" style="width:auto"
+              aria-label="Sort products" (change)="onSelect('sort', $event)">
+        @for (s of sortOptions; track s.value) {
+          <option [value]="s.value" [selected]="(query().sort ?? 'newest') === s.value">{{ s.label }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table ut-table align-middle">
+      <thead>
+        <tr>
+          <th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @if (isLoading()) {
+          @for (n of placeholders; track n) {
+            <tr class="placeholder-glow" aria-busy="true">
+              <td><span class="placeholder col-8"></span></td>
+              <td><span class="placeholder col-6"></span></td>
+              <td><span class="placeholder col-5"></span></td>
+              <td><span class="placeholder col-3"></span></td>
+              <td><span class="placeholder col-5"></span></td>
+              <td></td>
+            </tr>
+          }
+        } @else if (hasError()) {
+          <tr>
+            <td colspan="6" class="text-center py-5">
+              <p class="text-ut-mid mb-3">We could not load the products.</p>
+              <button type="button" class="btn btn-ut btn-sm" (click)="retry()">TRY AGAIN</button>
+            </td>
+          </tr>
+        } @else if (items().length === 0) {
+          <tr>
+            <td colspan="6" class="text-center text-ut-mid py-5">
+              No products found.
+              @if (hasFilters()) {
+                <button type="button" class="btn btn-link btn-sm ut-link p-0 ms-1" (click)="clearFilters()">Clear filters</button>
+              }
+            </td>
+          </tr>
+        } @else {
+          @for (p of items(); track p._id) {
+            <tr [class.bg-ut-soft]="p.status === 'archived'">
+              <td>
+                <div class="d-flex align-items-center gap-3">
+                  @if (p.featuredImageUrl) {
+                    <img [src]="p.featuredImageUrl" alt="" width="40" height="40" class="rounded object-fit-cover flex-none">
+                  } @else {
+                    <span class="ut-avatar ut-avatar-square bg-ut-soft text-ut-mid flex-none"><i class="bi bi-image"></i></span>
+                  }
+                  <div class="lh-sm min-w-0">
+                    <a [routerLink]="['/admin/products', p._id, 'edit']" class="fw-bold text-dark text-decoration-none">{{ p.name }}</a>
+                    <div><small class="text-ut-mid">{{ p.slug }}</small></div>
+                  </div>
+                </div>
+              </td>
+              <td class="text-ut-orange">{{ p.category?.name ?? '-' }}</td>
+              <td class="fw-semibold text-nowrap">{{ p.price | number }} EGP</td>
+              <td>
+                <span class="fw-semibold" [class.text-danger]="p.stockQuantity <= lowStock">{{ p.stockQuantity }}</span>
+              </td>
+              <td class="text-nowrap">
+                @switch (p.status) {
+                  @case ('active') { <span class="ut-status ut-status-paid">ACTIVE</span> }
+                  @case ('draft') { <span class="ut-status bg-secondary-subtle text-secondary-emphasis">DRAFT</span> }
+                  @default { <span class="ut-status ut-status-cancelled">ARCHIVED</span> }
+                }
+                @if (p.status === 'active' && p.stockQuantity === 0) {
+                  <span class="ut-status ut-status-cancelled ms-1">OUT OF STOCK</span>
+                } @else if (p.status === 'active' && p.stockQuantity <= lowStock) {
+                  <span class="ut-status ut-status-pending ms-1">LOW STOCK</span>
+                }
+              </td>
+              <td class="text-end text-nowrap">
+                <a [routerLink]="['/admin/products', p._id, 'edit']" class="btn btn-sm text-ut-mid" aria-label="Edit"><i class="bi bi-pencil"></i></a>
+                <button type="button" class="btn btn-sm text-ut-mid" aria-label="Duplicate"
+                        [disabled]="busyId() === p._id" (click)="duplicate(p)"><i class="bi bi-copy"></i></button>
+                @if (p.status === 'archived') {
+                  <button type="button" class="btn btn-sm text-ut-mid" aria-label="Restore as draft"
+                          [disabled]="busyId() === p._id" (click)="restore(p)"><i class="bi bi-arrow-counterclockwise"></i></button>
+                } @else {
+                  <button type="button" class="btn btn-sm ut-remove-btn text-danger" aria-label="Archive"
+                          data-bs-toggle="modal" data-bs-target="#archiveProductModal"
+                          [disabled]="busyId() === p._id" (click)="askDelete(p)"><i class="bi bi-trash"></i></button>
+                }
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 px-3 py-2 border-top">
+    <small class="text-ut-mid">
+      @if (range(); as r) { Showing {{ r.from }}-{{ r.to }} of {{ meta()?.total }} } @else { &nbsp; }
+    </small>
+    @if (pages().length) {
+      <ul class="pagination pagination-sm mb-0"
+          style="--bs-pagination-color:var(--ut-black);--bs-pagination-active-bg:var(--ut-black);--bs-pagination-active-border-color:var(--ut-black);--bs-pagination-focus-box-shadow:none">
+        <li class="page-item" [class.disabled]="meta()?.page === 1">
+          <a class="page-link" [routerLink]="[]" [queryParams]="{ page: (meta()?.page ?? 1) - 1 }" queryParamsHandling="merge" aria-label="Previous page"><i class="bi bi-chevron-left"></i></a>
+        </li>
+        @for (n of pages(); track n) {
+          <li class="page-item" [class.active]="n === meta()?.page">
+            <a class="page-link" [routerLink]="[]" [queryParams]="{ page: n }" queryParamsHandling="merge">{{ n }}</a>
+          </li>
+        }
+        <li class="page-item" [class.disabled]="meta()?.page === meta()?.totalPages">
+          <a class="page-link" [routerLink]="[]" [queryParams]="{ page: (meta()?.page ?? 1) + 1 }" queryParamsHandling="merge" aria-label="Next page"><i class="bi bi-chevron-right"></i></a>
+        </li>
+      </ul>
+    }
+  </div>
+</div>
+
+<!-- ================= ARCHIVE MODAL ================= -->
+<div class="modal fade" id="archiveProductModal" tabindex="-1" aria-labelledby="archiveProductTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <h2 class="ut-card-title mb-0" id="archiveProductTitle">Archive this product?</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="small text-ut-mid mb-0">
+          {{ toDelete()?.name }} will be hidden from the store and marked unavailable. It stays in old orders, and you can restore it as a draft later.
+        </p>
+      </div>
+      <div class="modal-footer border-0 pt-0">
+        <button type="button" class="btn btn-ut-outline" data-bs-dismiss="modal">Keep product</button>
+        <button type="button" class="btn btn-ut" data-bs-dismiss="modal" (click)="confirmDelete()">ARCHIVE</button>
+      </div>
+    </div>
+  </div>
+</div>

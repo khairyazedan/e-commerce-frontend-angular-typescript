@@ -1,0 +1,36 @@
+<h1 class="ut-title mb-1">WELCOME BACK</h1>
+<p class="text-ut-mid small mb-4">Sign in to access your account</p>
+
+<!-- Tabs -->
+<nav class="ut-tabs mb-4" aria-label="Authentication">
+  <a routerLink="/auth/login" class="ut-tab active" aria-current="page">Login</a>
+  <a routerLink="/auth/signup" class="ut-tab">Sign Up</a>
+</nav>
+
+<form method="post" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <!-- Email -->
+  <div class="mb-3">
+    <label class="ut-label" for="email">Email Address</label>
+    <input formControlName="email" type="email" id="email" name="email" class="form-control ut-input"
+           placeholder="you@example.com" autocomplete="email" required />
+  </div>
+ 
+  <!-- Password -->
+  <div class="mb-3">
+    <div class="d-flex align-items-center justify-content-between mb-1">
+      <label class="ut-label mb-0" for="password">Password</label>
+      <a routerLink="#" class="ut-link small">Forgot password?</a>
+    </div>
+    <input formControlName="password" type="password" id="password" name="password" class="form-control ut-input"
+           placeholder="Your password" autocomplete="current-password" required />
+  </div>
+
+  
+
+  <button type="submit" class="btn btn-ut w-100 mb-4">SIGN IN</button>
+
+  <p class="text-center text-ut-mid small mb-0">
+    Don't have an account?
+    <a routerLink="/auth/signup" class="ut-link fw-semibold">Sign up free</a>
+  </p>
+</form>

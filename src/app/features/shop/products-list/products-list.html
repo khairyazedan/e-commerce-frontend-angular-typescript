@@ -1,0 +1,243 @@
+<!-- pages/product-list/product-list.html  (storefront: goes between your navbar and footer) -->
+<section class="container py-5">
+
+  <!-- header -->
+  <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+    <div>
+      <h1 class="ut-section-title mb-1">SHOP</h1>
+      <p class="text-ut-mid small mb-0">
+        @if (range(); as r) {
+          Showing {{ r.from }}-{{ r.to }} of {{ meta()?.total }} products
+        } @else if (isLoading()) {
+          Loading products...
+        } @else {
+          No products to show
+        }
+      </p>
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+      <button type="button" class="btn btn-ut-outline d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#shopFilters" aria-controls="shopFilters">
+        <i class="bi bi-sliders me-1"></i> Filters
+      </button>
+      <select class="form-select ut-input py-2" style="width:auto" aria-label="Sort products" (change)="onSort($event)">
+        @for (s of sortOptions; track s.value) {
+          <option [value]="s.value" [selected]="(query().sort ?? 'newest') === s.value">{{ s.label }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- ================= FILTERS ================= -->
+    <aside class="col-12 col-lg-3">
+      <div class="offcanvas-lg offcanvas-start" tabindex="-1" id="shopFilters" aria-labelledby="shopFiltersTitle">
+        <div class="offcanvas-header d-lg-none">
+          <h2 class="ut-card-title mb-0" id="shopFiltersTitle">Filters</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#shopFilters" aria-label="Close"></button>
+        </div>
+
+        <div class="offcanvas-body d-block p-3 p-lg-0">
+          <div class="ut-card p-3 p-lg-4 d-flex flex-column gap-4">
+
+            <div>
+              <label class="ut-label" for="search">Search</label>
+              <div class="ut-group align-items-center">
+                <input #q type="search" id="search" class="ut-input form-control" placeholder="Name or brand"
+                       [value]="query().search ?? ''" (keyup.enter)="onSearch(q.value)">
+                <button type="button" class="ut-eye" aria-label="Search" (click)="onSearch(q.value)"><i class="bi bi-search"></i></button>
+              </div>
+            </div>
+
+            <fieldset>
+              <legend class="ut-label">Gender</legend>
+              @for (g of genderOptions; track g.value) {
+                <div class="form-check ut-check mb-2">
+                  <input class="form-check-input" type="checkbox" [id]="'g-' + g.value"
+                         [checked]="genders().includes(g.value)" (change)="toggle('gender', g.value, $event)">
+                  <label class="form-check-label" [for]="'g-' + g.value">{{ g.label }}</label>
+                </div>
+              }
+            </fieldset>
+
+            <fieldset>
+              <legend class="ut-label">Fit</legend>
+              @for (f of fitOptions; track f.value) {
+                <div class="form-check ut-check mb-2">
+                  <input class="form-check-input" type="checkbox" [id]="'f-' + f.value"
+                         [checked]="fits().includes(f.value)" (change)="toggle('fit', f.value, $event)">
+                  <label class="form-check-label" [for]="'f-' + f.value">{{ f.label }}</label>
+                </div>
+              }
+            </fieldset>
+
+            <div>
+              <div class="ut-label">Price (EGP)</div>
+              <div class="d-flex align-items-center gap-2">
+                <input #min type="number" min="0" class="ut-input form-control" placeholder="Min"
+                       [value]="query().minPrice ?? ''" (keyup.enter)="applyPrice(min.value, max.value)" aria-label="Minimum price">
+                <span class="text-ut-mid">-</span>
+                <input #max type="number" min="0" class="ut-input form-control" placeholder="Max"
+                       [value]="query().maxPrice ?? ''" (keyup.enter)="applyPrice(min.value, max.value)" aria-label="Maximum price">
+              </div>
+              <button type="button" class="btn btn-ut-outline btn-sm w-100 mt-2" (click)="applyPrice(min.value, max.value)">Apply price</button>
+            </div>
+
+            <div class="form-check ut-check">
+              <input class="form-check-input" type="checkbox" id="inStock" [checked]="!!query().inStock" (change)="onInStock($event)">
+              <label class="form-check-label" for="inStock">In stock only</label>
+            </div>
+
+            @if (hasFilters()) {
+              <button type="button" class="btn btn-ut-outline btn-sm" (click)="clearFilters()">
+                <i class="bi bi-x-lg me-1"></i> Clear all filters
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ================= PRODUCTS ================= -->
+    <div class="col-12 col-lg-9">
+
+      <!-- active filters -->
+      @if (hasFilters()) {
+        <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+          @if (query().search) {
+            <button type="button" class="ut-filter active" (click)="setParams({ search: null })">"{{ query().search }}" <i class="bi bi-x ms-1"></i></button>
+          }
+          @for (g of genders(); track g) {
+            <button type="button" class="ut-filter active text-capitalize" (click)="removeValue('gender', g)">{{ g }} <i class="bi bi-x ms-1"></i></button>
+          }
+          @for (f of fits(); track f) {
+            <button type="button" class="ut-filter active text-capitalize" (click)="removeValue('fit', f)">{{ f }} <i class="bi bi-x ms-1"></i></button>
+          }
+          @if (query().minPrice !== undefined || query().maxPrice !== undefined) {
+            <button type="button" class="ut-filter active" (click)="setParams({ minPrice: null, maxPrice: null })">
+              {{ query().minPrice ?? 0 }} - {{ query().maxPrice ?? 'any' }} EGP <i class="bi bi-x ms-1"></i>
+            </button>
+          }
+          @if (query().inStock) {
+            <button type="button" class="ut-filter active" (click)="setParams({ inStock: null })">In stock <i class="bi bi-x ms-1"></i></button>
+          }
+        </div>
+      }
+
+      @if (addError()) {
+        <p class="msg mb-3" role="alert">{{ addError() }}</p>
+      }
+
+      <!-- loading -->
+      @if (isLoading()) {
+        <div class="row row-cols-2 row-cols-md-3 g-4" aria-busy="true">
+          @for (n of placeholders; track n) {
+            <div class="col">
+              <div class="placeholder-glow">
+                <div class="ut-product-img placeholder w-100" style="aspect-ratio:3/4"></div>
+                <span class="placeholder col-8 mt-3 d-block"></span>
+                <span class="placeholder col-4 mt-2 d-block"></span>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- error -->
+      @else if (hasError()) {
+        <div class="ut-card text-center p-5">
+          <i class="bi bi-exclamation-circle fs-1 text-ut-mid"></i>
+          <h2 class="ut-section-title mt-3 mb-2">SOMETHING WENT WRONG</h2>
+          <p class="text-ut-mid mb-4">We could not load the products. Please try again.</p>
+          <button type="button" class="btn btn-ut" (click)="retry()">TRY AGAIN</button>
+        </div>
+      }
+
+      <!-- empty -->
+      @else if (items().length === 0) {
+        <div class="ut-card text-center p-5">
+          <i class="bi bi-search fs-1 text-ut-mid"></i>
+          <h2 class="ut-section-title mt-3 mb-2">NO PRODUCTS FOUND</h2>
+          <p class="text-ut-mid mb-4">Try removing a filter or searching for something else.</p>
+          @if (hasFilters()) {
+            <button type="button" class="btn btn-ut" (click)="clearFilters()">CLEAR FILTERS</button>
+          }
+        </div>
+      }
+
+      <!-- grid -->
+      @else {
+        <div class="row row-cols-2 row-cols-md-3 g-4">
+          @for (p of items(); track p._id) {
+            <div class="col">
+              <article class="ut-product h-100 d-flex flex-column">
+
+                <a [routerLink]="['/products', p.slug]" class="ut-product-img position-relative d-block" style="aspect-ratio:3/4">
+                  @if (p.featuredImageUrl) {
+                    <img [src]="p.featuredImageUrl" [alt]="p.name" class="w-100 h-100 object-fit-cover" loading="lazy">
+                  } @else {
+                    <span class="d-flex w-100 h-100 align-items-center justify-content-center text-ut-mid"><i class="bi bi-image fs-1"></i></span>
+                  }
+
+                  <span class="position-absolute top-0 start-0 m-2 d-flex flex-column align-items-start gap-1">
+                    @if (p.stockQuantity <= 0) {
+                      <span class="ut-tag">Sold out</span>
+                    } @else if (p.stockQuantity <= lowStock) {
+                      <span class="ut-tag ut-tag-orange">Only {{ p.stockQuantity }} left</span>
+                    }
+                    @if (p.isFeatured) {
+                      <span class="ut-tag ut-tag-orange">Featured</span>
+                    }
+                  </span>
+                </a>
+
+                <div class="pt-3 flex-grow-1">
+                  @if (p.brand) {
+                    <div class="text-ut-mid text-uppercase" style="font-size:.6875rem;letter-spacing:.1em">{{ p.brand }}</div>
+                  }
+                  <a [routerLink]="['/products', p.slug]" class="fw-bold text-dark text-decoration-none d-block">{{ p.name }}</a>
+                  <div class="small text-ut-mid text-capitalize">
+                    {{ p.category.name }}@if (p.fit) { <span> &middot; {{ p.fit }}</span> }
+                  </div>
+                  <div class="fw-semibold mt-1">{{ p.price | number }} EGP</div>
+                </div>
+
+                <button type="button" class="btn btn-ut-outline btn-sm w-100 mt-2"
+                        [disabled]="p.stockQuantity <= 0" (click)="addToCart(p)">
+                  @if (p.stockQuantity <= 0) {
+                    SOLD OUT
+                  } @else if (addedId() === p._id) {
+                    <i class="bi bi-check-lg me-1"></i> ADDED
+                  } @else {
+                    <i class="bi bi-bag-plus me-1"></i> ADD TO CART
+                  }
+                </button>
+              </article>
+            </div>
+          }
+        </div>
+
+        <!-- pagination -->
+        @if (pages().length) {
+          <nav class="d-flex justify-content-center mt-5" aria-label="Product pages">
+            <ul class="pagination mb-0"
+                style="--bs-pagination-color:var(--ut-black);--bs-pagination-active-bg:var(--ut-black);--bs-pagination-active-border-color:var(--ut-black);--bs-pagination-focus-box-shadow:none">
+              <li class="page-item" [class.disabled]="meta()?.page === 1">
+                <a class="page-link" [routerLink]="[]" [queryParams]="{ page: (meta()?.page ?? 1) - 1 }" queryParamsHandling="merge" aria-label="Previous page"><i class="bi bi-chevron-left"></i></a>
+              </li>
+              @for (n of pages(); track n) {
+                <li class="page-item" [class.active]="n === meta()?.page">
+                  <a class="page-link" [routerLink]="[]" [queryParams]="{ page: n }" queryParamsHandling="merge">{{ n }}</a>
+                </li>
+              }
+              <li class="page-item" [class.disabled]="meta()?.page === meta()?.totalPages">
+                <a class="page-link" [routerLink]="[]" [queryParams]="{ page: (meta()?.page ?? 1) + 1 }" queryParamsHandling="merge" aria-label="Next page"><i class="bi bi-chevron-right"></i></a>
+              </li>
+            </ul>
+          </nav>
+        }
+      }
+    </div>
+  </div>
+</section>

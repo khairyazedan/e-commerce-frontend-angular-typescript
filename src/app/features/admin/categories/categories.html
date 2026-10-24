@@ -1,0 +1,112 @@
+<!-- pages/admin/categories/categories.html  (rendered inside the admin layout) -->
+<nav aria-label="breadcrumb" class="small text-ut-mid text-uppercase mb-1" style="font-size:.6875rem;letter-spacing:.1em">
+  Admin <span class="mx-1">&rsaquo;</span> <span class="fw-semibold">Categories &amp; Collections</span>
+</nav>
+
+<div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+  <div>
+    <h1 class="ut-title mb-1">CATEGORIES &amp; COLLECTIONS</h1>
+    <p class="text-ut-mid small mb-0">Organize how customers browse your store</p>
+  </div>
+  <a routerLink="/admin/categories/new" class="btn btn-ut"><i class="bi bi-plus-lg me-1"></i> ADD CATEGORY</a>
+</div>
+
+<!-- filters -->
+<div class="row g-2 mb-3">
+  <div class="col-12 col-lg">
+    <div class="ut-group align-items-center">
+      <i class="bi bi-search ps-3 text-ut-mid"></i>
+      <input #q type="search" class="ut-input form-control" placeholder="Search categories (press Enter)"
+             [value]="query().search ?? ''" (keyup.enter)="onSearch(q.value)">
+    </div>
+  </div>
+  <div class="col-12 col-lg-auto">
+    <select class="form-select ut-input" aria-label="Status" (change)="onStatus($event)">
+      <option value="">All statuses</option>
+      <option value="active" [selected]="query().status === 'active'">Visible</option>
+      <option value="inactive" [selected]="query().status === 'inactive'">Hidden</option>
+    </select>
+  </div>
+  @if (hasFilters()) {
+    <div class="col-12 col-lg-auto">
+      <button type="button" class="btn btn-ut-outline w-100 h-100" (click)="clearFilters()"><i class="bi bi-x-lg me-1"></i> Clear</button>
+    </div>
+  }
+</div>
+
+@if (actionError()) {
+  <p class="msg mb-2" role="alert">{{ actionError() }}</p>
+}
+
+<div class="ut-card overflow-hidden">
+  <div class="px-3 py-2 border-bottom small text-ut-mid">
+    <span class="fw-semibold text-ut-orange">{{ total() }} {{ total() === 1 ? 'category' : 'categories' }}</span>
+    <span class="mx-2">|</span>{{ visibleCount() }} visible in the store
+  </div>
+
+  <ul class="list-unstyled mb-0">
+    @if (isLoading()) {
+      @for (n of placeholders; track n) {
+        <li class="d-flex align-items-center gap-3 px-3 py-3 border-bottom placeholder-glow" aria-busy="true">
+          <span class="placeholder rounded flex-none" style="width:3rem;height:3rem"></span>
+          <span class="placeholder col-4"></span>
+        </li>
+      }
+    } @else if (hasError()) {
+      <li class="text-center py-5">
+        <p class="text-ut-mid mb-3">We could not load the categories.</p>
+        <button type="button" class="btn btn-ut btn-sm" (click)="retry()">TRY AGAIN</button>
+      </li>
+    } @else if (rows().length === 0) {
+      <li class="text-center text-ut-mid py-5">
+        No categories found.
+        @if (hasFilters()) {
+          <button type="button" class="btn btn-link btn-sm ut-link p-0 ms-1" (click)="clearFilters()">Clear filters</button>
+        } @else {
+          <a routerLink="/admin/categories/new" class="ut-link ms-1">Add the first one</a>
+        }
+      </li>
+    } @else {
+      @for (row of rows(); track row.category._id; let last = $last) {
+        <li class="d-flex align-items-center gap-3 pe-3 py-3" [class.border-bottom]="!last"
+            [class.bg-ut-soft]="row.category.status === 'inactive'"
+            [style.paddingLeft.rem]="1 + row.depth * 2">
+
+          @if (row.depth > 0) {
+            <i class="bi bi-arrow-return-right text-ut-mid" aria-hidden="true"></i>
+          }
+
+          @if (row.category.imageUrl) {
+            <img [src]="row.category.imageUrl" alt="" class="rounded object-fit-cover flex-none" style="width:3rem;height:3rem">
+          } @else {
+            <span class="ut-avatar ut-avatar-square bg-ut-black flex-none" style="width:3rem;height:3rem"><i class="bi bi-tag text-ut-orange"></i></span>
+          }
+
+          <div class="flex-grow-1 min-w-0 lh-sm">
+            <a [routerLink]="['/admin/categories', row.category._id, 'edit']" class="fw-bold text-dark text-decoration-none">{{ row.category.name }}</a>
+            <div>
+              <small class="text-ut-mid">
+                {{ row.category.productCount ?? 0 }} {{ row.category.productCount === 1 ? 'product' : 'products' }}
+                @if (parentName(row.category); as parent) { <span> &middot; in {{ parent }}</span> }
+              </small>
+            </div>
+          </div>
+
+          @if (row.category.status === 'active') {
+            <span class="ut-status ut-status-paid">VISIBLE</span>
+          } @else {
+            <span class="ut-status bg-secondary-subtle text-secondary-emphasis">HIDDEN</span>
+          }
+
+          <a [routerLink]="['/admin/categories', row.category._id, 'edit']" class="btn btn-sm text-ut-mid" aria-label="Edit"><i class="bi bi-pencil"></i></a>
+          <button type="button" class="btn btn-sm text-ut-mid" [disabled]="busyId() === row.category._id"
+                  [attr.aria-label]="row.category.status === 'active' ? 'Hide from store' : 'Show in store'"
+                  [title]="row.category.status === 'active' ? 'Hide from store' : 'Show in store'"
+                  (click)="toggleStatus(row.category)">
+            <i class="bi" [class.bi-eye-slash]="row.category.status === 'active'" [class.bi-eye]="row.category.status !== 'active'"></i>
+          </button>
+        </li>
+      }
+    }
+  </ul>
+</div>

@@ -1,0 +1,147 @@
+
+    <header class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-4">
+      <div>
+        <h1 class="ut-section-title mb-1">ADDRESSES</h1>
+        <p class="text-ut-mid small mb-0">Manage your delivery addresses</p>
+      </div>
+      <button type="button" class="btn btn-ut btn-sm flex-none" data-bs-toggle="modal" data-bs-target="#addressModal">
+        <i class="bi bi-plus-lg me-1"></i>ADD NEW
+      </button>
+    </header>
+  
+    <div class="row g-3">
+      <!-- Example Address Card (Default) -->
+      <div class="col-md-6">
+        <article class="ut-address is-default">
+          <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+            <span class="ut-tag ut-tag-orange">Default</span>
+            <span class="ut-tag"><i class="bi bi-geo-alt"></i>Home</span>
+          </div>
+  
+          <p class="fw-bold mb-1">User Name</p>
+          <p class="small mb-1">142 Lafayette St, Apt 3F</p>
+          <p class="small mb-1">Cairo, Cairo Governorate 11728</p>
+          <p class="small mb-1">Egypt</p>
+          <p class="small ut-address-phone mb-3">+20 100 123 4567</p>
+  
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-ut-outline btn-sm flex-fill" data-bs-toggle="modal"
+                    data-bs-target="#addressModal">
+              <i class="bi bi-pencil me-1"></i>Edit
+            </button>
+          </div>
+        </article>
+      </div>
+  
+      <!-- Example Address Card (Removable) -->
+      <div class="col-md-6">
+        <article class="ut-address">
+          <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+            <span class="ut-tag"><i class="bi bi-geo-alt"></i>Work</span>
+          </div>
+  
+          <p class="fw-bold mb-1">User Name</p>
+          <p class="small mb-1">Nile City Towers, Cornish El Nil</p>
+          <p class="small mb-1">Cairo, Cairo Governorate 11221</p>
+          <p class="small mb-1">Egypt</p>
+          <p class="small ut-address-phone mb-3">+20 100 987 6543</p>
+  
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-ut-outline btn-sm flex-fill" data-bs-toggle="modal"
+                    data-bs-target="#addressModal">
+              <i class="bi bi-pencil me-1"></i>Edit
+            </button>
+            <button type="button" class="btn btn-ut-outline btn-sm ut-remove-btn" data-bs-toggle="modal"
+                    data-bs-target="#deleteAddressModal">
+              <i class="bi bi-trash3 me-1"></i>Remove
+            </button>
+          </div>
+        </article>
+      </div>
+  
+      <!-- Add new tile (always the last card) -->
+      <div class="col-md-6">
+        <button type="button" class="ut-address-add" data-bs-toggle="modal" data-bs-target="#addressModal">
+          <i class="bi bi-plus-circle fs-4"></i>
+          <span class="small fw-semibold">Add new address</span>
+        </button>
+      </div>
+    </div>
+  
+  
+  <!-- Add / edit address modal -->
+  <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <form class="modal-content" novalidate>
+        <div class="modal-header border-0 pb-0">
+          <h2 class="modal-title font-display fs-4" id="addressModalTitle">ADD / EDIT ADDRESS</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="ut-label" for="addr-label">Label</label>
+              <select id="addr-label" class="form-select ut-input">
+                <option value="Home">Home</option>
+                <option value="Work">Work</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="ut-label" for="addr-street">Street address</label>
+              <input id="addr-street" type="text" class="form-control ut-input" placeholder="142 Lafayette St, Apt 3F" autocomplete="street-address" />
+            </div>
+            <div class="col-6">
+              <label class="ut-label" for="addr-city">City</label>
+              <input id="addr-city" type="text" class="form-control ut-input" placeholder="Cairo" autocomplete="address-level2" />
+            </div>
+            <div class="col-6">
+              <label class="ut-label" for="addr-state">State / Governorate</label>
+              <input id="addr-state" type="text" class="form-control ut-input" placeholder="Cairo Governorate" autocomplete="address-level1" />
+            </div>
+            <div class="col-6">
+              <label class="ut-label" for="addr-postalCode">Postal code</label>
+              <input id="addr-postalCode" type="text" class="form-control ut-input" placeholder="11728" autocomplete="postal-code" />
+            </div>
+            <div class="col-6">
+              <label class="ut-label" for="addr-country">Country</label>
+              <input id="addr-country" type="text" class="form-control ut-input" placeholder="Egypt" autocomplete="country-name" />
+            </div>
+            <div class="col-12">
+              <label class="ut-label" for="addr-phoneNum">Phone number</label>
+              <input id="addr-phoneNum" type="text" class="form-control ut-input" placeholder="+20 100 123 4567" autocomplete="tel" />
+            </div>
+            <div class="col-12">
+              <div class="form-check ut-check">
+                <input class="form-check-input" type="checkbox" id="addr-isDefault" />
+                <label class="form-check-label" for="addr-isDefault">Use as my default address</label>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-ut-outline" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-ut" data-bs-dismiss="modal">SAVE ADDRESS</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Remove address confirmation -->
+  <div class="modal fade" id="deleteAddressModal" tabindex="-1" aria-labelledby="deleteAddressTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content">
+        <div class="modal-body text-center p-4">
+          <i class="bi bi-trash3 fs-2 text-danger"></i>
+          <h2 class="font-display fs-4 mt-2" id="deleteAddressTitle">REMOVE ADDRESS?</h2>
+          <p class="text-ut-mid small mb-4">This address will be deleted from your account.</p>
+          <div class="d-flex gap-2 justify-content-center">
+            <button type="button" class="btn btn-ut-outline" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

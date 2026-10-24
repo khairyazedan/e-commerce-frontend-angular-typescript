@@ -1,0 +1,239 @@
+<!-- customer-details.component.html
+Rendered inside the admin layout (<router-outlet>).
+Field names follow userSchema. Order count, total spent and the recent orders come from the orders collection.
+Address lines are placeholders: rename them to match address.model.js.
+The password is never shown or edited here. -->
+
+<nav aria-label="breadcrumb" class="small text-ut-mid text-uppercase mb-1" style="font-size:.6875rem;letter-spacing:.1em">
+Admin <span class="mx-1">&rsaquo;</span>
+<a href="/admin/customers" class="text-ut-mid text-decoration-none">Customers</a>
+<span class="mx-1">&rsaquo;</span> <span class="fw-semibold">Customer details</span>
+</nav>
+
+<!-- header -->
+<div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+<div class="d-flex align-items-center gap-3">
+<!-- with an avatar: <img src="..." class="ut-avatar ut-avatar-lg" alt="">  -->
+<span class="ut-avatar ut-avatar-lg">NH</span>
+<div>
+ <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+   <h1 class="ut-title mb-0">NOUR HASSAN</h1>
+   <span class="ut-status ut-status-paid">ACTIVE</span>
+   <span class="ut-tag">Customer</span>
+ </div>
+ <p class="text-ut-mid small mb-0">Customer since 18 Jan, 2026</p>
+</div>
+</div>
+<div class="d-flex flex-wrap gap-2">
+<a href="/admin/customers" class="btn btn-ut-outline"><i class="bi bi-arrow-left me-1"></i> Back to customers</a>
+<a href="mailto:nour.hassan@email.com" class="btn btn-ut-outline"><i class="bi bi-envelope me-1"></i> Email</a>
+<button type="button" class="btn btn-ut-outline text-danger" data-bs-toggle="modal" data-bs-target="#suspendModal">
+ <i class="bi bi-slash-circle me-1"></i> Suspend
+</button>
+</div>
+</div>
+
+<!-- stats -->
+<div class="row g-3 mb-4">
+<div class="col-6 col-lg-3">
+<div class="ut-card p-3 d-flex align-items-center gap-3">
+ <span class="ut-stat-icon"><i class="bi bi-bag"></i></span>
+ <div class="lh-sm"><div class="font-display fs-4">12</div><small class="text-ut-mid">Orders</small></div>
+</div>
+</div>
+<div class="col-6 col-lg-3">
+<div class="ut-card p-3 d-flex align-items-center gap-3">
+ <span class="ut-stat-icon"><i class="bi bi-cash-stack"></i></span>
+ <div class="lh-sm"><div class="font-display fs-4">31,450</div><small class="text-ut-mid">Total spent (EGP)</small></div>
+</div>
+</div>
+<div class="col-6 col-lg-3">
+<div class="ut-card p-3 d-flex align-items-center gap-3">
+ <span class="ut-stat-icon"><i class="bi bi-receipt"></i></span>
+ <div class="lh-sm"><div class="font-display fs-4">2,621</div><small class="text-ut-mid">Avg. order (EGP)</small></div>
+</div>
+</div>
+<div class="col-6 col-lg-3">
+<div class="ut-card p-3 d-flex align-items-center gap-3">
+ <span class="ut-stat-icon"><i class="bi bi-clock-history"></i></span>
+ <div class="lh-sm"><div class="font-display fs-4">24 Oct</div><small class="text-ut-mid">Last login</small></div>
+</div>
+</div>
+</div>
+
+<div class="row g-4">
+
+<!-- ================= LEFT COLUMN ================= -->
+<div class="col-12 col-xl-8 d-flex flex-column gap-4">
+
+<!-- Account details -->
+<section class="ut-card p-3 p-md-4">
+ <h2 class="ut-card-title mb-3">Account details</h2>
+ <form novalidate>
+   <div class="row g-3">
+     <div class="col-12 col-md-6">
+       <label class="ut-label" for="userName">User name</label>
+       <input type="text" id="userName" name="userName" class="ut-input form-control" minlength="3" maxlength="20" required value="Nour Hassan">
+       <div class="ut-hint">3 to 20 characters.</div>
+     </div>
+     <div class="col-12 col-md-6">
+       <label class="ut-label" for="phoneNum">Phone number</label>
+       <input type="tel" id="phoneNum" name="phoneNum" class="ut-input form-control" value="+20 100 000 0000" placeholder="+20 ...">
+     </div>
+     <div class="col-12">
+       <label class="ut-label" for="email">Email</label>
+       <div class="ut-group align-items-center">
+         <input type="email" id="email" name="email" class="ut-input form-control" required value="nour.hassan@email.com">
+         <span class="pe-3 small fw-semibold text-success text-nowrap"><i class="bi bi-patch-check-fill me-1"></i>Verified</span>
+       </div>
+     </div>
+     <div class="col-12 col-md-6">
+       <label class="ut-label" for="role">Role</label>
+       <select id="role" name="role" class="form-select ut-input">
+         <option value="customer" selected>Customer</option>
+         <option value="support">Support</option>
+         <option value="admin">Admin</option>
+       </select>
+     </div>
+     <div class="col-12 col-md-6">
+       <label class="ut-label" for="status">Account status</label>
+       <select id="status" name="status" class="form-select ut-input">
+         <option value="active" selected>Active</option>
+         <option value="suspended">Suspended</option>
+         <option value="deactivated">Deactivated</option>
+       </select>
+     </div>
+   </div>
+   <div class="d-flex flex-wrap justify-content-end gap-2 mt-4">
+     <button type="reset" class="btn btn-ut-outline">Reset</button>
+     <button type="submit" class="btn btn-ut"><i class="bi bi-check-lg me-1"></i> SAVE CHANGES</button>
+   </div>
+ </form>
+</section>
+
+<!-- Recent orders -->
+<section class="ut-card overflow-hidden">
+ <div class="d-flex align-items-center justify-content-between px-3 px-md-4 py-3 border-bottom">
+   <h2 class="ut-card-title mb-0">Recent orders</h2>
+   <a href="/admin/orders" class="ut-link small">View all</a>
+ </div>
+ <div class="table-responsive">
+   <table class="table ut-table align-middle">
+     <thead><tr><th>Order</th><th>Date</th><th>Total</th><th>Status</th><th></th></tr></thead>
+     <tbody>
+       <tr>
+         <td><a href="/admin/orders/UT-3048" class="ut-order-no ut-link">#UT-3048</a></td>
+         <td>24 Oct, 2026</td><td class="fw-semibold">4,850 EGP</td>
+         <td><span class="ut-status ut-status-pending">PENDING</span></td>
+         <td class="text-end"><a href="/admin/orders/UT-3048" class="text-ut-mid" aria-label="View order"><i class="bi bi-chevron-right"></i></a></td>
+       </tr>
+       <tr>
+         <td><a href="/admin/orders/UT-2991" class="ut-order-no ut-link">#UT-2991</a></td>
+         <td>11 Oct, 2026</td><td class="fw-semibold">3,100 EGP</td>
+         <td><span class="ut-status ut-status-delivered">DELIVERED</span></td>
+         <td class="text-end"><a href="/admin/orders/UT-2991" class="text-ut-mid" aria-label="View order"><i class="bi bi-chevron-right"></i></a></td>
+       </tr>
+       <tr>
+         <td><a href="/admin/orders/UT-2874" class="ut-order-no ut-link">#UT-2874</a></td>
+         <td>29 Sep, 2026</td><td class="fw-semibold">2,450 EGP</td>
+         <td><span class="ut-status ut-status-delivered">DELIVERED</span></td>
+         <td class="text-end"><a href="/admin/orders/UT-2874" class="text-ut-mid" aria-label="View order"><i class="bi bi-chevron-right"></i></a></td>
+       </tr>
+     </tbody>
+   </table>
+ </div>
+ <!-- empty state (show when the customer has no orders) -->
+ <div class="text-center text-ut-mid small px-3 py-4 d-none">This customer has not placed an order yet.</div>
+</section>
+
+<!-- Addresses -->
+<section class="ut-card p-3 p-md-4">
+ <h2 class="ut-card-title mb-3">Saved addresses</h2>
+ <div class="row g-3">
+   <div class="col-12 col-md-6">
+     <div class="ut-address is-default">
+       <div class="d-flex flex-wrap gap-2 mb-2">
+         <span class="ut-tag"><i class="bi bi-house"></i> Home</span>
+         <span class="ut-tag ut-tag-orange">Default</span>
+       </div>
+       <address class="small mb-0 lh-lg">
+         <span class="fw-bold d-block">Nour Hassan</span>
+         12 Tahrir Street, Apt 5<br>Dokki, Giza 12311<br>Egypt
+         <span class="ut-address-phone d-block mt-1"><i class="bi bi-telephone me-1"></i>+20 100 000 0000</span>
+       </address>
+     </div>
+   </div>
+   <div class="col-12 col-md-6">
+     <div class="ut-address">
+       <div class="d-flex flex-wrap gap-2 mb-2">
+         <span class="ut-tag"><i class="bi bi-briefcase"></i> Work</span>
+       </div>
+       <address class="small mb-0 lh-lg">
+         <span class="fw-bold d-block">Nour Hassan</span>
+         8 Nile Corniche, Floor 3<br>Maadi, Cairo 11431<br>Egypt
+         <span class="ut-address-phone d-block mt-1"><i class="bi bi-telephone me-1"></i>+20 100 000 0000</span>
+       </address>
+     </div>
+   </div>
+ </div>
+ <!-- empty state (show when address is empty) -->
+ <div class="text-center text-ut-mid small py-3 d-none">No saved addresses.</div>
+</section>
+</div>
+
+<!-- ================= RIGHT COLUMN ================= -->
+<div class="col-12 col-xl-4 d-flex flex-column gap-4">
+
+<!-- Overview -->
+<section class="ut-card p-3 p-md-4">
+ <h2 class="ut-card-title mb-3">Account overview</h2>
+ <dl class="row mb-0 small gy-2">
+   <dt class="col-5 text-ut-mid fw-semibold">Status</dt><dd class="col-7 mb-0"><span class="ut-status ut-status-paid">ACTIVE</span></dd>
+   <dt class="col-5 text-ut-mid fw-semibold">Role</dt><dd class="col-7 mb-0"><span class="ut-tag">Customer</span></dd>
+   <dt class="col-5 text-ut-mid fw-semibold">Email</dt>
+   <dd class="col-7 mb-0 text-success fw-semibold"><i class="bi bi-patch-check-fill me-1"></i>Verified</dd>
+   <dt class="col-5 text-ut-mid fw-semibold">Last login</dt><dd class="col-7 mb-0">24 Oct, 2026 &middot; 09:12 AM</dd>
+   <dt class="col-5 text-ut-mid fw-semibold">Joined</dt><dd class="col-7 mb-0">18 Jan, 2026</dd>
+   <dt class="col-5 text-ut-mid fw-semibold">Updated</dt><dd class="col-7 mb-0">20 Oct, 2026</dd>
+ </dl>
+</section>
+
+<!-- Security -->
+<section class="ut-card p-3 p-md-4">
+ <h2 class="ut-card-title mb-3">Security</h2>
+ <p class="small text-ut-mid">Passwords are hashed and cannot be viewed. Send the customer a reset link if they are locked out.</p>
+ <div class="d-grid gap-2">
+   <button type="button" class="btn btn-ut-outline btn-sm"><i class="bi bi-key me-1"></i> Send password reset</button>
+   <button type="button" class="btn btn-ut-outline btn-sm"><i class="bi bi-envelope-check me-1"></i> Resend verification email</button>
+ </div>
+</section>
+
+<!-- Danger zone -->
+<section class="ut-card p-3 p-md-4 border-danger">
+ <h2 class="ut-card-title text-danger mb-2">Restrict account</h2>
+ <p class="small text-ut-mid">Suspended customers cannot log in or place orders. Their order history stays intact.</p>
+ <button type="button" class="btn btn-ut-outline btn-sm text-danger w-100" data-bs-toggle="modal" data-bs-target="#suspendModal">
+   <i class="bi bi-slash-circle me-1"></i> Suspend customer
+ </button>
+</section>
+</div>
+</div>
+
+<!-- ================= SUSPEND MODAL ================= -->
+<div class="modal fade" id="suspendModal" tabindex="-1" aria-labelledby="suspendTitle" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+ <div class="modal-header border-0 pb-0">
+   <h2 class="ut-card-title mb-0" id="suspendTitle">Suspend this customer?</h2>
+   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+ </div>
+ <div class="modal-body">
+   <p class="small text-ut-mid mb-0">Nour Hassan will no longer be able to log in or place orders until you set the status back to active.</p>
+ </div>
+ <div class="modal-footer border-0 pt-0">
+   <button type="button" class="btn btn-ut-outline" data-bs-dismiss="modal">Cancel</button>
+   <button type="button" class="btn btn-ut">SUSPEND</button>
+ </div>
+</div>
+</div>
+</div>

@@ -1,0 +1,296 @@
+ <!--
+  Customer profile (route: /account/profile): plain HTML + Bootstrap 5 + Bootstrap Icons. No Angular syntax.
+  Needs: Bootstrap CSS + JS bundle (the two modals), Bootstrap Icons, and styles.css with the
+  ut-admin.css block pasted in (it defines ut-card, ut-avatar and ut-status-*).
+  All names, addresses and dates are sample data.
+-->
+<div class="container py-4 py-md-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10 col-xl-9">
+
+      <header class="mb-4">
+        <h1 class="ut-section-title mb-1">MY PROFILE</h1>
+        <p class="text-ut-mid small mb-0">Manage your personal information, addresses and security</p>
+      </header>
+
+      <!-- Email not verified notice (delete this block once the email is verified) -->
+      <div class="alert border-0 d-flex flex-wrap align-items-center justify-content-between gap-2 small py-2 mb-4"
+           style="background: rgba(255, 90, 31, .1); color: var(--ut-orange-dark);" role="status">
+        <span><i class="bi bi-exclamation-triangle me-2"></i>Your email address isn't verified yet.</span>
+        <button type="button" class="btn btn-link btn-sm p-0 ut-link">Resend verification email</button>
+      </div>
+
+      <!-- ===================== SUMMARY ===================== -->
+      <section class="ut-card p-4 mb-4">
+        <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-4">
+
+          <!-- Initial avatar. With a photo, use:
+               <img src="PHOTO_URL" alt="Maya Amin" class="rounded-circle object-fit-cover" width="80" height="80"> -->
+          <span class="ut-avatar flex-shrink-0" style="width: 5rem; height: 5rem; font-size: 1.75rem;" aria-hidden="true">M</span>
+
+          <div class="flex-grow-1">
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+              <h2 class="h5 fw-bold mb-0">Maya Amin</h2>
+              <span class="ut-status ut-status-paid">Active</span>
+            </div>
+            <p class="text-ut-mid small mb-1">
+              maya@urbanthread.com
+              <i class="bi bi-patch-check-fill text-success ms-1" title="Email verified"></i>
+            </p>
+            <p class="text-ut-mid small mb-3">Member since March 2026 · Last login Oct 20, 2026, 1:22 PM</p>
+
+            <div class="d-flex flex-wrap align-items-center gap-2">
+              <label class="btn btn-ut-outline py-2 px-3 mb-0">
+                <i class="bi bi-camera me-1"></i>Change photo
+                <input type="file" class="d-none" accept="image/png,image/jpeg,image/webp" />
+              </label>
+              <button type="button" class="btn btn-link btn-sm text-danger text-decoration-none">Remove photo</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== PERSONAL INFORMATION ===================== -->
+      <form class="ut-card p-4 mb-4">
+        <h2 class="ut-section-title fs-4 mb-4">PERSONAL INFORMATION</h2>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="ut-label" for="userName">Username</label>
+            <input id="userName" name="userName" type="text" class="form-control ut-input"
+                   value="Maya Amin" maxlength="20" autocomplete="username" required />
+          </div>
+
+          <div class="col-md-6">
+            <label class="ut-label" for="email">Email address</label>
+            <input id="email" name="email" type="email" class="form-control ut-input bg-ut-soft"
+                   value="maya@urbanthread.com" readonly />
+            <div class="ut-hint">Your email is your sign-in, so it can't be changed here.</div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="ut-label" for="phoneNum">Phone number</label>
+            <input id="phoneNum" name="phoneNum" type="tel" class="form-control ut-input"
+                   placeholder="+20 100 123 4567" autocomplete="tel" />
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <button type="submit" class="btn btn-ut">SAVE CHANGES</button>
+        </div>
+      </form>
+
+      <!-- ===================== ADDRESSES ===================== -->
+      <section class="ut-card p-4 mb-4" aria-labelledby="addressesTitle">
+        <div class="d-flex align-items-start justify-content-between gap-3 mb-4">
+          <div>
+            <h2 id="addressesTitle" class="ut-section-title fs-4 mb-1">ADDRESSES</h2>
+            <p class="text-ut-mid small mb-0">Where we deliver your orders</p>
+          </div>
+          <button type="button" class="btn btn-ut py-2 px-3 flex-shrink-0"
+                  data-bs-toggle="modal" data-bs-target="#addressModal">
+            <i class="bi bi-plus-lg me-1"></i>ADD ADDRESS
+          </button>
+        </div>
+
+        <div class="row g-3">
+
+          <!-- Address card: default -->
+          <div class="col-md-6">
+            <article class="border border-2 rounded-3 p-3 h-100" style="border-color: var(--ut-orange) !important;">
+              <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                <span class="badge rounded-pill text-bg-light border fw-semibold"><i class="bi bi-geo-alt me-1"></i>Home</span>
+                <span class="badge rounded-pill bg-ut-orange">Default</span>
+              </div>
+              <p class="fw-semibold mb-1">Maya Amin</p>
+              <p class="small mb-1">142 Lafayette St, Apt 3F</p>
+              <p class="small mb-1">Cairo, Cairo Governorate 11728</p>
+              <p class="small mb-2">Egypt</p>
+              <p class="small text-ut-mid mb-3"><i class="bi bi-telephone me-1"></i>+20 100 123 4567</p>
+              <div class="d-flex flex-wrap align-items-center gap-2">
+                <button type="button" class="btn btn-ut-outline py-2 px-3"
+                        data-bs-toggle="modal" data-bs-target="#addressModal">
+                  <i class="bi bi-pencil me-1"></i>Edit
+                </button>
+                <button type="button" class="btn btn-link btn-sm text-danger text-decoration-none ms-auto"
+                        data-bs-toggle="modal" data-bs-target="#deleteAddressModal">
+                  <i class="bi bi-trash3 me-1"></i>Remove
+                </button>
+              </div>
+            </article>
+          </div>
+
+          <!-- Address card: not default -->
+          <div class="col-md-6">
+            <article class="border rounded-3 p-3 h-100 bg-white">
+              <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                <span class="badge rounded-pill text-bg-light border fw-semibold"><i class="bi bi-geo-alt me-1"></i>Work</span>
+              </div>
+              <p class="fw-semibold mb-1">Maya Amin</p>
+              <p class="small mb-1">18 Tahrir Square, Floor 5</p>
+              <p class="small mb-1">Giza, Giza Governorate 12611</p>
+              <p class="small mb-2">Egypt</p>
+              <p class="small text-ut-mid mb-3"><i class="bi bi-telephone me-1"></i>+20 100 765 4321</p>
+              <div class="d-flex flex-wrap align-items-center gap-2">
+                <button type="button" class="btn btn-ut-outline py-2 px-3"
+                        data-bs-toggle="modal" data-bs-target="#addressModal">
+                  <i class="bi bi-pencil me-1"></i>Edit
+                </button>
+                <button type="button" class="btn btn-ut-outline py-2 px-3">Set as default</button>
+                <button type="button" class="btn btn-link btn-sm text-danger text-decoration-none ms-auto"
+                        data-bs-toggle="modal" data-bs-target="#deleteAddressModal">
+                  <i class="bi bi-trash3 me-1"></i>Remove
+                </button>
+              </div>
+            </article>
+          </div>
+
+          <!-- Empty state (show this instead of the cards when there are no addresses)
+          <div class="col-12">
+            <div class="text-center text-ut-mid py-4">
+              <i class="bi bi-geo-alt fs-3 d-block mb-2"></i>
+              <p class="fw-semibold text-body mb-1">No addresses yet</p>
+              <p class="small mb-0">Add one to speed up checkout.</p>
+            </div>
+          </div>
+          -->
+
+        </div>
+      </section>
+
+      <!-- ===================== CHANGE PASSWORD ===================== -->
+      <form class="ut-card p-4 mb-4">
+        <h2 class="ut-section-title fs-4 mb-4">CHANGE PASSWORD</h2>
+
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="ut-label" for="currentPassword">Current password</label>
+            <input id="currentPassword" name="currentPassword" type="password" class="form-control ut-input"
+                   placeholder="Your current password" autocomplete="current-password" required />
+          </div>
+
+          <div class="col-md-6">
+            <label class="ut-label" for="newPassword">New password</label>
+            <input id="newPassword" name="newPassword" type="password" class="form-control ut-input"
+                   placeholder="Min. 8 characters" minlength="8" autocomplete="new-password" required />
+            <div class="ut-hint">Use at least 8 characters.</div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="ut-label" for="confirmPassword">Confirm new password</label>
+            <input id="confirmPassword" name="confirmPassword" type="password" class="form-control ut-input"
+                   placeholder="Repeat new password" minlength="8" autocomplete="new-password" required />
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <button type="submit" class="btn btn-ut">UPDATE PASSWORD</button>
+        </div>
+      </form>
+
+      <!-- ===================== SIGN OUT EVERYWHERE ===================== -->
+      <section class="ut-card p-4">
+        <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
+          <div>
+            <h2 class="ut-section-title fs-4 mb-1">SIGN OUT EVERYWHERE</h2>
+            <p class="text-ut-mid small mb-0">Ends your session on every device, including this one.</p>
+          </div>
+          <button type="button" class="btn btn-ut-outline">
+            <i class="bi bi-box-arrow-right me-2"></i>Sign out of all devices
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ADD / EDIT ADDRESS MODAL ===================== -->
+<div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <form class="modal-content border-0 shadow">
+      <div class="modal-header border-0 pb-0">
+        <h2 class="modal-title ut-section-title fs-4" id="addressModalTitle">ADD / EDIT ADDRESS</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="ut-label" for="addr-label">Label</label>
+            <select id="addr-label" name="label" class="form-select ut-input">
+              <option value="Home">Home</option>
+              <option value="Work">Work</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="col-12">
+            <label class="ut-label" for="addr-street">Street address</label>
+            <input id="addr-street" name="street" type="text" class="form-control ut-input"
+                   placeholder="142 Lafayette St, Apt 3F" autocomplete="street-address" required />
+          </div>
+
+          <div class="col-6">
+            <label class="ut-label" for="addr-city">City</label>
+            <input id="addr-city" name="city" type="text" class="form-control ut-input"
+                   placeholder="Cairo" autocomplete="address-level2" required />
+          </div>
+
+          <div class="col-6">
+            <label class="ut-label" for="addr-state">State / Governorate</label>
+            <input id="addr-state" name="state" type="text" class="form-control ut-input"
+                   placeholder="Cairo Governorate" autocomplete="address-level1" required />
+          </div>
+
+          <div class="col-6">
+            <label class="ut-label" for="addr-postalCode">Postal code</label>
+            <input id="addr-postalCode" name="postalCode" type="text" class="form-control ut-input"
+                   placeholder="11728" autocomplete="postal-code" required />
+          </div>
+
+          <div class="col-6">
+            <label class="ut-label" for="addr-country">Country</label>
+            <input id="addr-country" name="country" type="text" class="form-control ut-input"
+                   placeholder="Egypt" autocomplete="country-name" required />
+          </div>
+
+          <div class="col-12">
+            <label class="ut-label" for="addr-phoneNum">Phone number</label>
+            <input id="addr-phoneNum" name="phoneNum" type="tel" class="form-control ut-input"
+                   placeholder="+20 100 123 4567" autocomplete="tel" required />
+          </div>
+
+          <div class="col-12">
+            <div class="form-check ut-check">
+              <input class="form-check-input" type="checkbox" id="addr-isDefault" name="isDefault" />
+              <label class="form-check-label" for="addr-isDefault">Use as my default address</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer border-0 pt-0">
+        <button type="button" class="btn btn-ut-outline" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-ut">SAVE ADDRESS</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== REMOVE ADDRESS MODAL ===================== -->
+<div class="modal fade" id="deleteAddressModal" tabindex="-1" aria-labelledby="deleteAddressTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-body text-center p-4">
+        <i class="bi bi-trash3 fs-2 text-danger"></i>
+        <h2 class="ut-section-title fs-4 mt-2" id="deleteAddressTitle">REMOVE ADDRESS?</h2>
+        <p class="text-ut-mid small mb-4">This address will be deleted from your account.</p>
+        <div class="d-flex gap-2 justify-content-center">
+          <button type="button" class="btn btn-ut-outline" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

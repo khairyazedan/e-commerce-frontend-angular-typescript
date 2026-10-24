@@ -1,0 +1,60 @@
+<!--
+    Admin navbar: plain HTML + Bootstrap 5 + Bootstrap Icons. No search bar.
+    Menu button on mobile, then notifications and the profile menu on the right.
+    Needs Bootstrap's JS bundle (drawer button + profile dropdown) and the admin rules from ut-admin.css.
+  -->
+  <header class="ut-topbar bg-white border-bottom sticky-top">
+    <div class="d-flex align-items-center gap-3 h-100 px-3 px-lg-4">
+  
+      <!-- Opens the sidebar drawer (below lg only) -->
+      <button type="button" class="ut-topbar-btn d-lg-none"
+              data-bs-toggle="offcanvas" data-bs-target="#adminSidebar"
+              aria-controls="adminSidebar" aria-label="Open menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+  
+      <div class="ms-auto d-flex align-items-center gap-1 gap-sm-2">
+  
+        <!-- Notifications -->
+        <button type="button" class="ut-topbar-btn" aria-label="Notifications, 3 new">
+          <i class="bi bi-bell"></i>
+          <span class="ut-notify-badge">3</span>
+        </button>
+  
+        <!-- Profile -->
+        <div class="dropdown">
+          <button type="button" class="ut-profile-btn" data-bs-toggle="dropdown" aria-expanded="false"
+                  aria-label="Account menu">
+            <span class="ut-avatar ut-avatar-square">MA</span>
+            <span class="d-none d-sm-block text-start lh-sm">
+              <span class="d-block small fw-semibold">Maya Amin</span>
+              <span class="d-block ut-profile-role">Store admin</span>
+            </span>
+            <i class="bi bi-chevron-down small text-ut-mid d-none d-sm-inline"></i>
+          </button>
+  
+          <ul class="dropdown-menu dropdown-menu-end ut-dropdown shadow border-0">
+            <li class="px-3 py-2 small text-ut-mid text-truncate">maya@urbanthread.com</li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item" routerLink="/admin/settings">
+                <i class="bi bi-gear me-2"></i>Settings
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/" target="_blank" rel="noopener">
+                <i class="bi bi-box-arrow-up-right me-2"></i>View store
+              </a>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <a class="dropdown-item" routerLink="/auth/login" style="color: var(--ut-error);">
+                <i class="bi bi-box-arrow-left me-2"></i>Log out
+              </a>
+            </li>
+          </ul>
+        </div>
+  
+      </div>
+    </div>
+  </header>

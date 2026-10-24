@@ -1,0 +1,93 @@
+<h1 class="ut-title mb-1">CREATE ACCOUNT</h1>
+<p class="text-ut-mid small mb-4">Sign up to start shopping</p>
+
+<!-- Tabs -->
+<nav class="ut-tabs mb-4" aria-label="Authentication">
+  <a routerLink="/auth/login" class="ut-tab">Login</a>
+  <a routerLink="/auth/signup" class="ut-tab active" aria-current="page">Sign Up</a>
+</nav>
+
+<form (ngSubmit)="submit()" [formGroup]="signupForm">
+  <!-- Full name -->
+  <div class="mb-3"> 
+    <label class="ut-label" for="name">Full Name</label>
+    <input formControlName="userName" type="text" id="name" name="name" class="form-control ut-input"
+           placeholder="Your full name" autocomplete="name" required />
+    @if(signupForm.get("userName")?.invalid && signupForm.get("userName")?.touched) {
+        @if(signupForm.get("userName")?.errors?.['required']) {
+          <p class="msg">Username is required</p>
+        }
+        @if(
+          signupForm.get("userName")?.errors?.['minlength'] ||
+          signupForm.get("userName")?.errors?.['maxlength']
+        ) {
+          <p class="msg">Username is must be between 3- 10 chars</p>
+        }
+      }
+  </div>
+
+  <!-- Email -->
+  <div class="mb-3">
+    <label class="ut-label" for="email">Email Address</label>
+    <input formControlName="email" type="email" id="email" name="email" class="form-control ut-input"
+           placeholder="you@example.com" autocomplete="email" required />
+            @if(signupForm.get('email')?.invalid && signupForm.get('email')?.touched){
+                <!-- mail.errors?.['required']-->
+                @if(signupForm.get('email')?.errors?.['required']) {
+                    <span class="msg">user e-mail is required</span>
+                }
+                @if(
+                signupForm.get('email')?.errors?.['pattern'])
+                {
+                    <span class="msg">user e-mail format is invalid</span>
+                } 
+              }
+  </div>
+
+  <!-- Password -->
+  <div class="mb-3">
+    <label class="ut-label" for="password">Password</label>
+    <input formControlName="password" type="password" id="password" name="password" class="form-control ut-input"
+           placeholder="At least 8 characters" minlength="8" autocomplete="new-password" required />
+           @let pw = signupForm.get('password');
+           @if (pw?.invalid && pw?.touched) {
+             @if (pw?.errors?.['required']) {
+               <p class="msg">Password is required</p>
+             }
+             @if (pw?.errors?.['passwordStrength']; as err) {
+               <p class="msg">Password is missing: {{ err.missing }}</p>
+             }
+           }
+  </div>
+
+  <!-- Confirm password -->
+  <div class="mb-3">
+    <label class="ut-label" for="confirmPassword">Confirm Password</label>
+    <input formControlName="retypePassword" type="password" id="confirmPassword" name="confirmPassword" class="form-control ut-input"
+           placeholder="Repeat your password" minlength="8" autocomplete="new-password" required />
+    @if(signupForm.get('retypePassword')?.invalid && signupForm.get('retypePassword')?.touched){
+          
+      @if (signupForm.get('retypePassword')?.errors?.['required']) {
+        <p class="msg">Please re-type your password</p>
+      }
+      @if (signupForm.get('retypePassword')?.errors?.['passwordDismatch']) {
+        <p class="msg">Passwords do not match</p>
+      }
+    }
+  </div>
+
+  <!-- Terms -->
+  <div class="form-check ut-check mb-4">
+    <input type="checkbox" id="terms" name="terms" class="form-check-input" required />
+    <label for="terms" class="form-check-label">
+      I agree to the <a routerLink="#" class="ut-link">Terms</a> and <a routerLink="#" class="ut-link">Privacy Policy</a>
+    </label>
+  </div>
+
+  <button type="submit" class="btn btn-ut w-100 mb-4">CREATE ACCOUNT</button>
+
+  <p class="text-center text-ut-mid small mb-0">
+    Already have an account?
+    <a routerLink="/auth/login" class="ut-link fw-semibold">Sign in</a>
+  </p>
+</form>

@@ -1,0 +1,22 @@
+<div class="row g-4">
+
+    <!-- Tabs: a vertical list from md up, a horizontal strip on phones -->
+    <div class="col-12 col-md-3 col-xl-2">
+      <nav class="ut-settings-tabs d-flex flex-md-column overflow-x-auto" aria-label="Settings sections">
+        <a routerLink="store"         routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-settings-tab">Store info</a>
+        <a routerLink="payments"      routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-settings-tab">Payments</a>
+        <a routerLink="shipping"      routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-settings-tab">Shipping</a>
+        <a routerLink="taxes"         routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-settings-tab">Taxes</a>
+        <a routerLink="team"          routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-settings-tab">Team &amp; roles</a>
+        <a routerLink="notifications" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-settings-tab">Notifications</a>
+      </nav>
+    </div>
+  
+    <!-- The selected tab's page renders here -->
+    <div class="col-12 col-md-9 col-xl-8">
+      <section class="ut-card p-4">
+        <router-outlet />
+      </section>
+    </div>
+  
+  </div>

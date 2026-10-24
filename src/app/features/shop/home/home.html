@@ -1,0 +1,176 @@
+<!-- ============ HERO ============ -->
+<section class="ut-store-hero">
+  <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1600&h=1000&fit=crop&auto=format"
+       alt="Urban streetwear editorial" />
+  <div class="container py-5">
+    <div class="col-12 col-md-8 col-lg-6">
+      <p class="ut-label text-ut-orange mb-3">New season · Fall / Winter</p>
+      <h1 class="ut-hero-headline mb-3">WEAR YOUR<br /><span class="text-ut-orange">STORY.</span></h1>
+      <p class="ut-hero-sub mb-4">New arrivals drop every Friday. No excuses.</p>
+      <div class="d-flex flex-wrap gap-3">
+        <a routerLink="/shop?sort=newest" class="btn btn-ut px-4">SHOP NEW ARRIVALS</a>
+        <a routerLink="/shop?sale=true" class="btn btn-ut-ghost">SHOP SALE</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BENEFITS STRIP ============ -->
+<section class="bg-white border-bottom">
+  <div class="container py-4">
+    <div class="row g-4 text-center text-md-start">
+      <div class="col-6 col-lg-3 d-flex flex-column flex-md-row align-items-center gap-3">
+        <i class="bi bi-truck fs-2 text-ut-orange"></i>
+        <div><div class="fw-semibold small">Free shipping</div><div class="small text-ut-mid">On orders over $75</div></div>
+      </div>
+      <div class="col-6 col-lg-3 d-flex flex-column flex-md-row align-items-center gap-3">
+        <i class="bi bi-arrow-repeat fs-2 text-ut-orange"></i>
+        <div><div class="fw-semibold small">Easy returns</div><div class="small text-ut-mid">30-day return window</div></div>
+      </div>
+      <div class="col-6 col-lg-3 d-flex flex-column flex-md-row align-items-center gap-3">
+        <i class="bi bi-shield-check fs-2 text-ut-orange"></i>
+        <div><div class="fw-semibold small">Secure payment</div><div class="small text-ut-mid">Encrypted checkout</div></div>
+      </div>
+      <div class="col-6 col-lg-3 d-flex flex-column flex-md-row align-items-center gap-3">
+        <i class="bi bi-headset fs-2 text-ut-orange"></i>
+        <div><div class="fw-semibold small">Real support</div><div class="small text-ut-mid">We reply within a day</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SHOP BY CATEGORY ============ -->
+<section class="container py-5">
+  <div class="d-flex justify-content-between align-items-end mb-4">
+    <h2 class="ut-section-title mb-0">SHOP BY CATEGORY</h2>
+    <a routerLink="/shop" class="ut-link small d-none d-sm-inline">View all <i class="bi bi-arrow-right"></i></a>
+  </div>
+
+  <!-- To use photos: put an <img class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"> as the first child
+       of each tile and add a dark gradient on top. -->
+  <div class="row g-3">
+    <div class="col-12 col-md-4">
+      <a routerLink="/shop?gender=men" class="ut-tile">
+        <span class="ut-tile-title">MEN</span>
+        <i class="bi bi-arrow-right fs-3 text-ut-orange"></i>
+      </a>
+    </div>
+    <div class="col-12 col-md-4">
+      <a routerLink="/shop?gender=women" class="ut-tile">
+        <span class="ut-tile-title">WOMEN</span>
+        <i class="bi bi-arrow-right fs-3 text-ut-orange"></i>
+      </a>
+    </div>
+    <div class="col-12 col-md-4">
+      <a routerLink="/shop?gender=kids" class="ut-tile">
+        <span class="ut-tile-title">KIDS</span>
+        <i class="bi bi-arrow-right fs-3 text-ut-orange"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NEW ARRIVALS ============ -->
+<section class="container pb-5">
+  <div class="d-flex justify-content-between align-items-end mb-4">
+    <h2 class="ut-section-title mb-0">NEW ARRIVALS</h2>
+    <a routerLink="/shop?sort=newest" class="ut-link small">Shop all <i class="bi bi-arrow-right"></i></a>
+  </div>
+
+  <div class="row g-3 g-lg-4">
+
+    <!-- Product card (repeat per product) -->
+    <div class="col-6 col-lg-3">
+      <article class="ut-product">
+        <div class="ut-product-img position-relative">
+          <a routerLink="/product/1" class="d-block ratio ratio-3x4">
+            <!-- Replace with: <img src="PRODUCT_IMAGE" alt="PRODUCT_NAME" class="object-fit-cover"> -->
+            <div class="d-flex align-items-center justify-content-center text-ut-mid"><i class="bi bi-image fs-1"></i></div>
+          </a>
+          <span class="badge bg-ut-orange rounded-1 position-absolute top-0 start-0 m-3">NEW</span>
+          <button type="button" class="btn btn-light btn-sm rounded-circle position-absolute top-0 end-0 m-3 shadow-sm"
+                  aria-label="Add to wishlist"><i class="bi bi-heart"></i></button>
+        </div>
+        <p class="ut-label text-ut-mid mt-3 mb-1">Men · T-Shirts</p>
+        <h3 class="h6 fw-semibold mb-2"><a routerLink="/product/1" class="text-reset text-decoration-none">Oversized Graphic Tee</a></h3>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="font-display fs-5">$45.00</span>
+          <button type="button" class="btn btn-dark btn-sm" aria-label="Add to cart"><i class="bi bi-bag-plus"></i></button>
+        </div>
+      </article>
+    </div>
+
+    <div class="col-6 col-lg-3">
+      <article class="ut-product">
+        <div class="ut-product-img position-relative">
+          <a routerLink="/product/2" class="d-block ratio ratio-3x4">
+            <div class="d-flex align-items-center justify-content-center text-ut-mid"><i class="bi bi-image fs-1"></i></div>
+          </a>
+          <span class="badge bg-ut-orange rounded-1 position-absolute top-0 start-0 m-3">NEW</span>
+          <button type="button" class="btn btn-light btn-sm rounded-circle position-absolute top-0 end-0 m-3 shadow-sm"
+                  aria-label="Add to wishlist"><i class="bi bi-heart"></i></button>
+        </div>
+        <p class="ut-label text-ut-mid mt-3 mb-1">Women · Trousers</p>
+        <h3 class="h6 fw-semibold mb-2"><a routerLink="/product/2" class="text-reset text-decoration-none">Wide-Leg Striped Trousers</a></h3>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="font-display fs-5">$79.00</span>
+          <button type="button" class="btn btn-dark btn-sm" aria-label="Add to cart"><i class="bi bi-bag-plus"></i></button>
+        </div>
+      </article>
+    </div>
+
+    <div class="col-6 col-lg-3">
+      <article class="ut-product">
+        <div class="ut-product-img position-relative">
+          <a routerLink="/product/3" class="d-block ratio ratio-3x4">
+            <div class="d-flex align-items-center justify-content-center text-ut-mid"><i class="bi bi-image fs-1"></i></div>
+          </a>
+          <button type="button" class="btn btn-light btn-sm rounded-circle position-absolute top-0 end-0 m-3 shadow-sm"
+                  aria-label="Add to wishlist"><i class="bi bi-heart"></i></button>
+        </div>
+        <p class="ut-label text-ut-mid mt-3 mb-1">Unisex · Hoodies</p>
+        <h3 class="h6 fw-semibold mb-2"><a routerLink="/product/3" class="text-reset text-decoration-none">Heavyweight Zip Hoodie</a></h3>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="font-display fs-5">$95.00</span>
+          <button type="button" class="btn btn-dark btn-sm" aria-label="Add to cart"><i class="bi bi-bag-plus"></i></button>
+        </div>
+      </article>
+    </div>
+
+    <div class="col-6 col-lg-3">
+      <article class="ut-product">
+        <div class="ut-product-img position-relative">
+          <a routerLink="/product/4" class="d-block ratio ratio-3x4">
+            <div class="d-flex align-items-center justify-content-center text-ut-mid"><i class="bi bi-image fs-1"></i></div>
+          </a>
+          <span class="badge text-bg-dark rounded-1 position-absolute top-0 start-0 m-3">-20%</span>
+          <button type="button" class="btn btn-light btn-sm rounded-circle position-absolute top-0 end-0 m-3 shadow-sm"
+                  aria-label="Add to wishlist"><i class="bi bi-heart"></i></button>
+        </div>
+        <p class="ut-label text-ut-mid mt-3 mb-1">Men · Jackets</p>
+        <h3 class="h6 fw-semibold mb-2"><a routerLink="/product/4" class="text-reset text-decoration-none">Utility Bomber Jacket</a></h3>
+        <div class="d-flex justify-content-between align-items-center">
+          <span><span class="font-display fs-5">$120.00</span> <s class="small text-ut-mid">$150.00</s></span>
+          <button type="button" class="btn btn-dark btn-sm" aria-label="Add to cart"><i class="bi bi-bag-plus"></i></button>
+        </div>
+      </article>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ FRIDAY DROP BANNER ============ -->
+<section class="bg-ut-black text-ut-white">
+  <div class="container py-5">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <p class="ut-label text-ut-orange mb-2">Every Friday</p>
+        <h2 class="ut-section-title text-ut-white mb-2">THE FRIDAY DROP</h2>
+        <p class="mb-0 text-ut-white opacity-75">Limited pieces, fresh every week. Once they're gone, they're gone.</p>
+      </div>
+      <div class="col-lg-4 text-lg-end">
+        <a routerLink="/shop?sort=newest" class="btn btn-ut px-4">SEE THIS WEEK'S DROP</a>
+      </div>
+    </div>
+  </div>
+</section>

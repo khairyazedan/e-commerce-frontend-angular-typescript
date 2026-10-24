@@ -1,0 +1,90 @@
+<!--
+    Customer account sidebar: plain HTML + Bootstrap 5 + Bootstrap Icons, same look as the admin sidebar.
+    Large screens: sticky column under the navbar, collapsible to icons only.
+    Below lg: offcanvas drawer opened by the account navbar's menu button (it targets #accountSidebar).
+    Needs Bootstrap's JS bundle, the admin sidebar rules in styles.css, and the small CSS block below.
+  -->
+  <aside #side class="ut-sidebar ut-sidebar-account offcanvas-lg offcanvas-start" tabindex="-1"
+         id="accountSidebar" aria-label="Account sidebar">
+  
+    <!-- Collapse / expand (desktop only) -->
+    <button type="button" class="ut-collapse-btn d-none d-lg-grid" aria-label="Collapse sidebar"
+            (click)="side.classList.toggle('ut-collapsed')">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+  
+    <div class="bg-ut-black d-flex flex-column h-100 px-3 pt-3 pb-2" data-bs-theme="dark">
+  
+      <!-- Brand -->
+      <div class="d-flex align-items-center justify-content-between px-2 pb-2 mb-1">
+        <a routerLink="/account" class="ut-brand-link d-flex align-items-center gap-2 text-decoration-none">
+          <i class="bi bi-lightning-charge-fill text-ut-orange fs-4"></i>
+          <span class="ut-side-label lh-1">
+            <span class="ut-brand fs-6 d-block">URBAN<span>THREAD</span></span>
+            <span class="ut-side-brand-sub d-block mt-1">My account</span>
+          </span>
+        </a>
+        <button type="button" class="btn-close d-lg-none" data-bs-dismiss="offcanvas"
+                data-bs-target="#accountSidebar" aria-label="Close menu"></button>
+      </div>
+  
+      <!-- Navigation (no overflow: it scales to fit) -->
+      <nav class="ut-side-nav flex-grow-1" aria-label="Account navigation">
+  
+        <p class="ut-side-section">Account</p>
+        <ul class="list-unstyled d-grid gap-1 mb-0">
+          <li>
+            <a routerLink="/account/profile" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-side-link">
+              <i class="bi bi-person"></i><span class="ut-side-label">My Profile</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/account/orders" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-side-link">
+              <i class="bi bi-bag"></i><span class="ut-side-label">My Orders</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/account/addresses" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-side-link">
+              <i class="bi bi-geo-alt"></i><span class="ut-side-label">Addresses</span>
+            </a>
+          </li>
+          <!-- <li>
+            <a routerLink="/account/wishlist" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-side-link">
+              <i class="bi bi-heart"></i><span class="ut-side-label">Wishlist</span>
+            </a>
+          </li> -->
+          <li>
+            <a routerLink="/account/payment" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-side-link">
+              <i class="bi bi-credit-card"></i><span class="ut-side-label">Payment</span>
+            </a>
+          </li>
+        </ul>
+  
+        <p class="ut-side-section">System</p>
+        <ul class="list-unstyled d-grid gap-1 mb-0">
+          <li>
+            <a routerLink="/account/settings" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-side-link">
+              <i class="bi bi-gear"></i><span class="ut-side-label">Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+  
+      <!-- Bottom: help + sign out -->
+      <div class="border-top ut-footer-rule pt-2 mt-2 d-grid gap-1">
+        <!-- TODO: point to a real help page -->
+        <a href="#" (click)="$event.preventDefault()" class="ut-side-link">
+          <i class="bi bi-question-circle"></i>
+          <span class="ut-side-label lh-sm">
+            <span class="d-block">Need help?</span>
+            <span class="d-block ut-side-sub">Contact support</span>
+          </span>
+        </a>
+        <!-- logout() should call AuthService.logOut() and then navigate to /auth/login -->
+        <button type="button" class="ut-side-link" (click)="logout()">
+          <i class="bi bi-box-arrow-left"></i><span class="ut-side-label">Sign Out</span>
+        </button>
+      </div>
+  
+    </div>
+  </aside>

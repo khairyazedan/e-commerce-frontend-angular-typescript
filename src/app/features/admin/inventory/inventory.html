@@ -1,0 +1,148 @@
+<!-- inventory.component.html -->
+<nav aria-label="breadcrumb" class="small text-ut-mid text-uppercase mb-1" style="font-size:.6875rem;letter-spacing:.1em">
+  Admin <span class="mx-1">&rsaquo;</span> <span class="fw-semibold">Inventory</span>
+</nav>
+
+<div class="mb-4">
+  <h1 class="ut-title mb-1">INVENTORY</h1>
+  <p class="text-ut-mid small mb-0">Monitor stock across every product variant</p>
+</div>
+
+<!-- summary banner -->
+<div class="bg-ut-black text-ut-white rounded-3 p-3 p-md-4 mb-3 d-flex flex-wrap align-items-center gap-4">
+  <div>
+    <div class="ut-side-brand-sub">Units in stock</div>
+    <div class="font-display fs-4">2,846</div>
+  </div>
+  <div>
+    <div class="ut-side-brand-sub">Low stock variants</div>
+    <div class="font-display fs-4 text-danger">12</div>
+  </div>
+  <div>
+    <div class="ut-side-brand-sub">Out of stock</div>
+    <div class="font-display fs-4">4</div>
+  </div>
+  <button type="button" class="btn btn-light ms-md-auto fw-semibold"><i class="bi bi-upload me-1"></i> Import inventory</button>
+</div>
+
+<!-- filters -->
+<div class="row g-2 mb-3">
+  <div class="col-12 col-lg">
+    <div class="ut-group align-items-center">
+      <i class="bi bi-search ps-3 text-ut-mid"></i>
+      <input type="search" class="ut-input form-control" placeholder="Search product or SKU...">
+    </div>
+  </div>
+  <div class="col-6 col-lg-auto">
+    <select class="form-select ut-input"><option>All categories</option><option>T-Shirts</option><option>Jackets</option><option>Denim</option><option>Dresses</option><option>Footwear</option></select>
+  </div>
+  <div class="col-6 col-lg-auto">
+    <select class="form-select ut-input"><option>All statuses</option><option>In stock</option><option>Low stock</option><option>Out of stock</option></select>
+  </div>
+  <div class="col-12 col-lg-auto">
+    <button type="button" class="btn btn-ut-outline w-100 h-100"><i class="bi bi-sliders me-1"></i> More filters</button>
+  </div>
+</div>
+
+<div class="ut-card overflow-hidden">
+  <div class="table-responsive">
+    <table class="table ut-table align-middle">
+      <thead>
+        <tr><th>Variant</th><th>SKU</th><th>Available</th><th>Committed</th><th>Incoming</th><th></th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="d-flex align-items-center gap-3">
+              <img src="assets/images/products/tee.jpg" alt="" width="36" height="36" class="rounded object-fit-cover flex-none">
+              <div class="lh-sm"><div class="fw-bold">After Hours Oversized Tee</div><small class="text-ut-mid">T-Shirts / S</small></div>
+            </div>
+          </td>
+          <td class="text-ut-mid">UT-1300</td>
+          <td><input type="number" class="ut-input form-control form-control-sm text-center" style="width:4.5rem;padding:.35rem .5rem" value="84" min="0" aria-label="Available units"></td>
+          <td>1</td>
+          <td>—</td>
+          <td class="text-end"><button type="button" class="btn btn-ut-outline btn-sm">Restock</button></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="d-flex align-items-center gap-3">
+              <img src="assets/images/products/tee.jpg" alt="" width="36" height="36" class="rounded object-fit-cover flex-none">
+              <div class="lh-sm"><div class="fw-bold">After Hours Oversized Tee</div><small class="text-ut-mid">T-Shirts / M</small></div>
+            </div>
+          </td>
+          <td class="text-ut-mid">UT-1301</td>
+          <td><input type="number" class="ut-input form-control form-control-sm text-center" style="width:4.5rem;padding:.35rem .5rem" value="88" min="0" aria-label="Available units"></td>
+          <td>2</td>
+          <td>20</td>
+          <td class="text-end"><button type="button" class="btn btn-ut-outline btn-sm">Restock</button></td>
+        </tr>
+        <tr class="table-warning">
+          <td>
+            <div class="d-flex align-items-center gap-3">
+              <img src="assets/images/products/jacket.jpg" alt="" width="36" height="36" class="rounded object-fit-cover flex-none">
+              <div class="lh-sm"><div class="fw-bold">Utility Zip Jacket</div><small class="text-ut-mid">Jackets / S</small></div>
+            </div>
+          </td>
+          <td class="text-ut-mid">UT-1302</td>
+          <td><input type="number" class="ut-input form-control form-control-sm text-center" style="width:4.5rem;padding:.35rem .5rem" value="3" min="0" aria-label="Available units"></td>
+          <td>3</td>
+          <td>—</td>
+          <td class="text-end"><button type="button" class="btn btn-ut-outline btn-sm">Restock</button></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="d-flex align-items-center gap-3">
+              <img src="assets/images/products/jacket.jpg" alt="" width="36" height="36" class="rounded object-fit-cover flex-none">
+              <div class="lh-sm"><div class="fw-bold">Utility Zip Jacket</div><small class="text-ut-mid">Jackets / M</small></div>
+            </div>
+          </td>
+          <td class="text-ut-mid">UT-1303</td>
+          <td><input type="number" class="ut-input form-control form-control-sm text-center" style="width:4.5rem;padding:.35rem .5rem" value="10" min="0" aria-label="Available units"></td>
+          <td>4</td>
+          <td>20</td>
+          <td class="text-end"><button type="button" class="btn btn-ut-outline btn-sm">Restock</button></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="d-flex align-items-center gap-3">
+              <img src="assets/images/products/jeans.jpg" alt="" width="36" height="36" class="rounded object-fit-cover flex-none">
+              <div class="lh-sm"><div class="fw-bold">Indigo Wide-Leg Jeans</div><small class="text-ut-mid">Denim / S</small></div>
+            </div>
+          </td>
+          <td class="text-ut-mid">UT-1304</td>
+          <td><input type="number" class="ut-input form-control form-control-sm text-center" style="width:4.5rem;padding:.35rem .5rem" value="31" min="0" aria-label="Available units"></td>
+          <td>5</td>
+          <td>—</td>
+          <td class="text-end"><button type="button" class="btn btn-ut-outline btn-sm">Restock</button></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="d-flex align-items-center gap-3">
+              <img src="assets/images/products/jeans.jpg" alt="" width="36" height="36" class="rounded object-fit-cover flex-none">
+              <div class="lh-sm"><div class="fw-bold">Indigo Wide-Leg Jeans</div><small class="text-ut-mid">Denim / M</small></div>
+            </div>
+          </td>
+          <td class="text-ut-mid">UT-1305</td>
+          <td><input type="number" class="ut-input form-control form-control-sm text-center" style="width:4.5rem;padding:.35rem .5rem" value="35" min="0" aria-label="Available units"></td>
+          <td>6</td>
+          <td>20</td>
+          <td class="text-end"><button type="button" class="btn btn-ut-outline btn-sm">Restock</button></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="d-flex align-items-center gap-3">
+              <img src="assets/images/products/sneakers.jpg" alt="" width="36" height="36" class="rounded object-fit-cover flex-none">
+              <div class="lh-sm"><div class="fw-bold">Volt Runner Sneakers</div><small class="text-ut-mid">Footwear / S</small></div>
+            </div>
+          </td>
+          <td class="text-ut-mid">UT-1306</td>
+          <td><input type="number" class="ut-input form-control form-control-sm text-center" style="width:4.5rem;padding:.35rem .5rem" value="12" min="0" aria-label="Available units"></td>
+          <td>7</td>
+          <td>—</td>
+          <td class="text-end"><button type="button" class="btn btn-ut-outline btn-sm">Restock</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

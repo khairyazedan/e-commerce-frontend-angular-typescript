@@ -1,0 +1,122 @@
+<!--
+    Admin sidebar: plain HTML + Bootstrap 5 + Bootstrap Icons.
+    Large screens: sticky 260px column that scales with the window height, so it never needs a scrollbar.
+    Below lg: offcanvas drawer opened by the navbar's menu button.
+    Needs Bootstrap's JS bundle, the admin rules already in styles.css, and sidebar-fit.css (paste it after them).
+    The collapse button toggles the .ut-collapsed class straight from the template (#side reference).
+  -->
+  <aside #side class="ut-sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="adminSidebar"
+         aria-label="Admin sidebar">
+  
+    <!-- Collapse / expand (desktop only) -->
+    <button type="button" class="ut-collapse-btn d-none d-lg-grid" aria-label="Collapse sidebar"
+            (click)="side.classList.toggle('ut-collapsed')">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+  
+    <div class="bg-ut-black d-flex flex-column h-100 px-3 pt-3 pb-2" data-bs-theme="dark">
+  
+      <!-- Brand -->
+      <div class="d-flex align-items-center justify-content-between px-2 pb-2 mb-1">
+        <a routerLink="/admin" class="ut-brand-link d-flex align-items-center gap-2 text-decoration-none">
+          <i class="bi bi-lightning-charge-fill text-ut-orange fs-4"></i>
+          <span class="ut-side-label lh-1">
+            <span class="ut-brand fs-6 d-block">URBAN<span>THREAD</span></span>
+            <span class="ut-side-brand-sub d-block mt-1">Admin console</span>
+          </span>
+        </a>
+        <button type="button" class="btn-close d-lg-none" data-bs-dismiss="offcanvas"
+                data-bs-target="#adminSidebar" aria-label="Close menu"></button>
+      </div>
+  
+      <!-- Navigation (no overflow: it scales to fit) -->
+      <nav class="ut-side-nav flex-grow-1" aria-label="Admin navigation">
+  
+        <p class="ut-side-section">Workspace</p>
+        <ul class="list-unstyled d-grid gap-1 mb-0">
+          <li>
+            <a routerLink="overview" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-side-link">
+              <i class="bi bi-grid-1x2"></i><span class="ut-side-label">Overview</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="analytics" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-side-link">
+              <i class="bi bi-bar-chart"></i><span class="ut-side-label">Analytics</span>
+            </a>
+          </li>
+        </ul>
+  
+        <p class="ut-side-section">Commerce</p>
+        <ul class="list-unstyled d-grid gap-1 mb-0">
+          <li>
+            <a routerLink="products" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-side-link">
+              <i class="bi bi-box-seam"></i><span class="ut-side-label">Products</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="categories" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-side-link">
+              <i class="bi bi-folder2"></i><span class="ut-side-label">Categories</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="orders" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-side-link">
+              <i class="bi bi-bag"></i><span class="ut-side-label">Orders</span>
+              <span class="ut-side-badge ms-auto">8</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="customers" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-side-link">
+              <i class="bi bi-people"></i><span class="ut-side-label">Customers</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="inventory" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-side-link">
+              <i class="bi bi-building"></i><span class="ut-side-label">Inventory</span>
+            </a>
+          </li>
+          <!-- <li>
+            <a routerLink="coupons" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-side-link">
+              <i class="bi bi-ticket-perforated"></i><span class="ut-side-label">Coupons</span>
+            </a>
+          </li> -->
+          <li>
+            <a routerLink="reviews" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-side-link">
+              <i class="bi bi-star"></i><span class="ut-side-label">Reviews</span>
+              <span class="ut-side-badge ms-auto">4</span>
+            </a>
+          </li>
+        </ul>
+  
+        <p class="ut-side-section">System</p>
+        <ul class="list-unstyled d-grid gap-1 mb-0">
+          <li>
+            <a routerLink="settings" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-side-link">
+              <i class="bi bi-gear"></i><span class="ut-side-label">Settings</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="profile" routerLinkActive="active" ariaCurrentWhenActive="page" class="ut-side-link">
+              <i class="bi bi-person"></i><span class="ut-side-label">Profile</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+  
+      <!-- Bottom: help + logout -->
+      <div class="border-top ut-footer-rule pt-2 mt-2 d-grid gap-1">
+        <!-- TODO: point to a real help page, there is no /admin/help route yet -->
+        <a href="#" (click)="$event.preventDefault()" class="ut-side-link">
+          <i class="bi bi-question-circle"></i>
+          <span class="ut-side-label lh-sm">
+            <span class="d-block">Need help?</span>
+            <span class="d-block ut-side-sub">Visit the admin guide</span>
+          </span>
+        </a>
+        <!-- Logout is a button: the component's logout() should call AuthService.logOut() and then navigate to /auth/login -->
+        <button type="button" class="ut-side-link"  (click)="logout()">
+          <i class="bi bi-box-arrow-left"></i><span class="ut-side-label">Logout</span>
+        </button>
+      </div>
+  
+    </div>
+  </aside>

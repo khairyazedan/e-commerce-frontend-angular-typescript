@@ -1,0 +1,83 @@
+<header class="d-flex flex-wrap align-items-end justify-content-between gap-2 mb-4">
+    <div>
+      <h1 class="ut-section-title mb-1">MY ORDERS</h1>
+      <p class="text-ut-mid small mb-0">Track and manage your purchases</p>
+    </div>
+    <span class="text-ut-mid small">3 orders</span>
+  </header>
+  
+  <!-- Status filters -->
+  <div class="d-flex flex-wrap gap-2 mb-3" role="group" aria-label="Filter orders by status">
+    <button type="button" class="ut-filter active" aria-pressed="true">All</button>
+    <button type="button" class="ut-filter" aria-pressed="false">Delivered</button>
+    <button type="button" class="ut-filter" aria-pressed="false">Shipped</button>
+    <button type="button" class="ut-filter" aria-pressed="false">Processing</button>
+    <button type="button" class="ut-filter" aria-pressed="false">Cancelled</button>
+  </div>
+  
+  <section class="ut-card overflow-hidden" aria-label="Orders">
+    <div class="table-responsive">
+      <table class="table ut-table ut-orders-table align-middle mb-0">
+        <thead>
+          <tr>
+            <th scope="col">Order</th>
+            <th scope="col">Date</th>
+            <th scope="col">Items</th>
+            <th scope="col">Total</th>
+            <th scope="col">Status</th>
+            <th scope="col"><span class="visually-hidden">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Sample Order 1: Delivered -->
+          <tr>
+            <td class="font-display ut-order-no">#1042</td>
+            <td class="text-ut-mid text-nowrap">Oct 15, 2026</td>
+            <td class="ut-order-items">
+              <span class="d-block text-truncate">Classic Hoodie × 2, Cotton Tee</span>
+            </td>
+            <td class="fw-bold text-nowrap">$149.99</td>
+            <td>
+              <span class="ut-status ut-status-delivered text-uppercase">delivered</span>
+            </td>
+            <td class="text-end">
+              <a href="#" class="btn btn-sm btn-ut-line">Details</a>
+            </td>
+          </tr>
+  
+          <!-- Sample Order 2: Shipped -->
+          <tr>
+            <td class="font-display ut-order-no">#1043</td>
+            <td class="text-ut-mid text-nowrap">Oct 18, 2026</td>
+            <td class="ut-order-items">
+              <span class="d-block text-truncate">Minimalist Watch</span>
+            </td>
+            <td class="fw-bold text-nowrap">$89.00</td>
+            <td>
+              <!-- "shipped" uses the purple transit pill from the design -->
+              <span class="ut-status ut-status-transit text-uppercase">shipped</span>
+            </td>
+            <td class="text-end">
+              <a href="#" class="btn btn-sm btn-ut-line">Details</a>
+            </td>
+          </tr>
+  
+          <!-- Sample Order 3: Processing -->
+          <tr>
+            <td class="font-display ut-order-no">#1044</td>
+            <td class="text-ut-mid text-nowrap">Oct 20, 2026</td>
+            <td class="ut-order-items">
+              <span class="d-block text-truncate">Leather Backpack</span>
+            </td>
+            <td class="fw-bold text-nowrap">$120.50</td>
+            <td>
+              <span class="ut-status ut-status-processing text-uppercase">processing</span>
+            </td>
+            <td class="text-end">
+              <a href="#" class="btn btn-sm btn-ut-line">Details</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>

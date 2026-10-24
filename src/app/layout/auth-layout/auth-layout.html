@@ -1,0 +1,35 @@
+<div class="container-fluid p-0">
+    <div class="row g-0 min-vh-100">
+  
+      <!-- Left panel: editorial photo (hidden below md) -->
+      <aside class="col-md-6 d-none d-md-flex flex-column justify-content-between ut-hero">
+        <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=900&h=1300&fit=crop&auto=format"
+             alt="Urban streetwear editorial" />
+        <div class="px-5 pt-5">
+          <a routerLink="/" class="ut-brand fs-4 text-decoration-none">URBAN<span>THREAD</span></a>
+        </div>
+        <div class="px-5 pb-5">
+          <p class="ut-hero-headline mb-2">WEAR YOUR<br /><span class="text-ut-orange">STORY.</span></p>
+          <p class="ut-hero-sub mb-0">New arrivals drop every Friday — no excuses.</p>
+          <div class="ut-pill mt-4"><i></i><span>100K+ members worldwide</span></div>
+        </div>
+      </aside>
+  
+      <!-- Right panel: login / signup pages render here -->
+      <main class="col-12 col-md-6 d-flex flex-column bg-ut-white">
+  
+        <!-- Mobile brand bar -->
+        <div class="d-md-none bg-ut-black d-flex align-items-center justify-content-center" style="height:56px">
+          <a routerLink="/" class="ut-brand fs-5 text-decoration-none">URBAN<span>THREAD</span></a>
+        </div>
+  
+        <div class="flex-grow-1 d-flex align-items-center justify-content-center px-4 py-5">
+          <div class="ut-form-wrap">
+            <router-outlet />
+          </div>
+        </div>
+      </main>
+  
+    </div>
+  </div>
+  

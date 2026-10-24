@@ -1,0 +1,133 @@
+<nav aria-label="breadcrumb" class="small text-ut-mid text-uppercase mb-1" style="font-size:.6875rem;letter-spacing:.1em">
+  Admin <span class="mx-1">&rsaquo;</span>
+  <a routerLink="/admin/categories" class="text-ut-mid text-decoration-none">Categories &amp; Collections</a>
+  <span class="mx-1">&rsaquo;</span> <span class="fw-semibold">{{ isEdit ? 'Edit category' : 'Add category' }}</span>
+</nav>
+
+<div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+  <div>
+    <h1 class="ut-title mb-1">{{ isEdit ? 'EDIT CATEGORY' : 'ADD CATEGORY' }}</h1>
+    <p class="text-ut-mid small mb-0">{{ isEdit ? 'Update how this category appears in your store' : 'Create a new category for your store' }}</p>
+  </div>
+  <a routerLink="/admin/categories" class="btn btn-ut-outline"><i class="bi bi-arrow-left me-1"></i> Back to categories</a>
+</div>
+
+@if (loading()) {
+  <div class="ut-card p-5 text-center text-ut-mid" aria-busy="true">
+    <div class="spinner-border spinner-border-sm me-2" role="status"></div> Loading category...
+  </div>
+} @else if (loadError()) {
+  <div class="ut-card p-5 text-center">
+    <p class="msg justify-content-center mb-3" role="alert">{{ loadError() }}</p>
+    <a routerLink="/admin/categories" class="btn btn-ut">BACK TO CATEGORIES</a>
+  </div>
+} @else {
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <div class="row g-4">
+
+    <!-- ================= LEFT COLUMN ================= -->
+    <div class="col-12 col-xl-8">
+      <section class="ut-card p-3 p-md-4">
+        <h2 class="ut-card-title mb-3">Category details</h2>
+        <div class="row g-3">
+
+          <div class="col-12 col-md-6">
+            <label class="ut-label" for="name">Name</label>
+            <input type="text" id="name" formControlName="name" class="ut-input form-control" maxlength="80" placeholder="e.g. Denim">
+            @if (f.name.touched && f.name.hasError('required')) { <p class="msg">Name is required</p> }
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="ut-label" for="slug">Slug</label>
+            <input type="text" id="slug" formControlName="slug" class="ut-input form-control" placeholder="generated from the name if empty">
+            @if (f.slug.touched && f.slug.hasError('pattern')) {
+              <p class="msg">Use lowercase letters, numbers and hyphens only</p>
+            } @else {
+              <div class="ut-hint">Lowercase letters, numbers and hyphens only.</div>
+            }
+          </div>
+
+          <div class="col-12">
+            <label class="ut-label" for="description">Description</label>
+            <textarea id="description" formControlName="description" rows="4" class="ut-input form-control" maxlength="500"
+                      placeholder="Describe what shoppers will find in this category"></textarea>
+            <div class="ut-hint">{{ f.description.value.length }}/500 characters</div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="ut-label" for="parentCategory">Parent category</label>
+            <select id="parentCategory" formControlName="parentCategory" class="form-select ut-input">
+              <option value="">None (top-level category)</option>
+              @for (c of parentOptions(); track c._id) {
+                <option [value]="c._id">{{ c.name }}{{ c.status === 'inactive' ? ' (hidden)' : '' }}</option>
+              }
+            </select>
+            <div class="ut-hint">A category cannot sit under itself or one of its own subcategories.</div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="ut-label" for="status">Status</label>
+            <select id="status" formControlName="status" class="form-select ut-input">
+              <option value="active">Active (visible in the store)</option>
+              <option value="inactive">Inactive (hidden)</option>
+            </select>
+            <div class="ut-hint">Inactive categories are hidden from the storefront.</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================= RIGHT COLUMN ================= -->
+    <div class="col-12 col-xl-4 d-flex flex-column gap-4">
+
+      <!-- Image (ImageKit) -->
+      <section class="ut-card p-3 p-md-4">
+        <h2 class="ut-card-title mb-3">Category image</h2>
+        @if (imageUrl()) {
+          <div class="position-relative">
+            <img [src]="imageUrl()" alt="Category image" class="w-100 rounded-3 object-fit-cover" style="aspect-ratio:4/3">
+            <button type="button" class="btn btn-sm btn-light position-absolute top-0 end-0 m-2" aria-label="Remove image"
+                    (click)="removeImage()"><i class="bi bi-x-lg"></i></button>
+          </div>
+        } @else {
+          <label for="categoryImage" class="ut-address-add" style="min-height:11rem;cursor:pointer">
+            @if (uploading()) {
+              <span class="spinner-border spinner-border-sm" role="status"></span>
+              <span class="small">Uploading...</span>
+            } @else {
+              <i class="bi bi-image fs-3"></i>
+              <span class="small fw-semibold">Upload image</span>
+              <span class="small">PNG or JPG, up to 5 MB</span>
+            }
+          </label>
+          <input type="file" id="categoryImage" class="d-none" accept="image/*" [disabled]="uploading()" (change)="onImage($event)">
+        }
+        @if (imageError()) { <p class="msg" role="alert">{{ imageError() }}</p> }
+      </section>
+
+      @if (loaded(); as c) {
+        <section class="ut-card p-3 p-md-4">
+          <h2 class="ut-card-title mb-3">Overview</h2>
+          <dl class="row mb-0 small gy-2">
+            <dt class="col-5 text-ut-mid fw-semibold">Created</dt><dd class="col-7 mb-0">{{ c.createdAt | date: 'd MMM, y' }}</dd>
+            <dt class="col-5 text-ut-mid fw-semibold">Last updated</dt><dd class="col-7 mb-0">{{ c.updatedAt | date: 'd MMM, y' }}</dd>
+          </dl>
+        </section>
+      }
+
+      <section class="ut-card p-3 p-md-4 d-grid gap-2">
+        @if (submitError()) { <p class="msg mt-0 mb-1" role="alert">{{ submitError() }}</p> }
+        <button type="submit" class="btn btn-ut" [disabled]="saving() || uploading()">
+          @if (saving()) {
+            <span class="spinner-border spinner-border-sm me-2" role="status"></span>SAVING...
+          } @else {
+            <i class="bi bi-check-lg me-1"></i> {{ isEdit ? 'SAVE CHANGES' : 'SAVE CATEGORY' }}
+          }
+        </button>
+        <a routerLink="/admin/categories" class="btn btn-ut-outline">Cancel</a>
+      </section>
+    </div>
+
+  </div>
+</form>
+}

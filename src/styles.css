@@ -1,0 +1,874 @@
+/* ============================================================
+   Urban Thread: global styles (Bootstrap 5 + palette overrides)
+   Contents: palette, helpers, auth pages, buttons, form errors, store pages
+   Bootstrap can load before or after this file: the button rules use
+   `.btn.btn-ut`-style selectors, which win either way.
+   ============================================================ */
+
+:root {
+  /* Urban Thread palette (same values as the Tailwind config) */
+  --ut-black: #0D0D0D;
+  --ut-white: #F5F5F0;
+  --ut-orange: #FF5A1F;
+  --ut-orange-dark: #e54e16;
+  --ut-soft: #f0f0eb;
+  --ut-gray-light: #E5E5E5;
+  --ut-gray-mid: #9A9A9A;
+  --ut-gray-dark: #3A3A3A;
+  --ut-error: #D92D20;
+
+  /* Point Bootstrap's own tokens at the palette */
+  --bs-body-font-family: 'Inter', system-ui, sans-serif;
+  --bs-body-bg: var(--ut-white);
+  --bs-body-color: var(--ut-black);
+  --bs-link-color: var(--ut-orange);
+  --bs-link-hover-color: var(--ut-orange-dark);
+  --bs-link-color-rgb: 255, 90, 31;
+  --bs-link-hover-color-rgb: 229, 78, 22;
+  --bs-primary: var(--ut-orange);
+  --bs-primary-rgb: 255, 90, 31;
+}
+
+body { -webkit-font-smoothing: antialiased; }
+
+/* ---------- Typography & color helpers ---------- */
+.font-display { font-family: 'Anton', sans-serif; font-weight: 400; }
+.text-ut-orange { color: var(--ut-orange) !important; }
+.text-ut-white  { color: var(--ut-white) !important; }
+.text-ut-mid    { color: var(--ut-gray-mid) !important; }
+.bg-ut-black    { background-color: var(--ut-black) !important; }
+.bg-ut-white    { background-color: var(--ut-white) !important; }
+.bg-ut-orange   { background-color: var(--ut-orange) !important; }
+.bg-ut-soft     { background-color: var(--ut-soft) !important; }
+
+.ut-brand {
+  font-family: 'Anton', sans-serif;
+  letter-spacing: .22em;
+  color: var(--ut-white);
+}
+.ut-brand span { color: var(--ut-orange); }
+
+.ut-title {
+  font-family: 'Anton', sans-serif;
+  font-weight: 400;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  letter-spacing: .04em;
+  line-height: 1.1;
+}
+
+.ut-section-title {
+  font-family: 'Anton', sans-serif;
+  font-weight: 400;
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  letter-spacing: .05em;
+  line-height: 1.1;
+}
+
+/* ============================================================
+   AUTH PAGES
+   ============================================================ */
+
+/* ---------- Left editorial panel ---------- */
+.ut-hero {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  align-self: flex-start;   /* stops the row from stretching it */
+  background: var(--ut-black);
+  overflow: hidden;
+}
+.ut-hero::after {            /* dark gradient over the photo */
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, rgba(13,13,13,.75) 0%, rgba(13,13,13,.25) 55%, rgba(13,13,13,.80) 100%);
+}
+.ut-hero > * { position: relative; z-index: 1; }
+.ut-hero > img { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ut-hero-headline {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1;
+  color: var(--ut-white);
+}
+.ut-hero-sub { font-size: .8125rem; letter-spacing: .08em; color: rgba(245,245,240,.6); }
+.ut-pill {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .5rem 1rem; border-radius: 999px;
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+  backdrop-filter: blur(8px);
+  font-size: .75rem; letter-spacing: .06em; color: var(--ut-white);
+}
+.ut-pill i { width: .5rem; height: .5rem; border-radius: 50%; background: var(--ut-orange); display: inline-block; }
+
+/* ---------- Form panel ---------- */
+.ut-form-wrap { max-width: 420px; width: 100%; }
+
+/* Login / Sign Up tab strip (plain links between two pages) */
+.ut-tabs { display: flex; border-bottom: 2px solid var(--ut-gray-light); }
+.ut-tab {
+  margin-bottom: -2px; margin-right: 2rem; padding: .875rem 0;
+  border-bottom: 2px solid transparent;
+  font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ut-gray-mid); text-decoration: none; transition: color .15s, border-color .15s;
+}
+.ut-tab:hover { color: var(--ut-black); }
+.ut-tab.active { color: var(--ut-black); border-bottom-color: var(--ut-orange); }
+
+.ut-label {
+  display: block; margin-bottom: .375rem;
+  font-size: .6875rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ut-black);
+}
+
+/* Inputs */
+.ut-input,
+.ut-input:focus {
+  padding: .875rem 1rem;
+  font-size: .9375rem;
+  color: var(--ut-black);
+  background-color: #fff;
+  border: 1.5px solid var(--ut-gray-light);
+  border-radius: .5rem;
+  box-shadow: none;
+}
+.ut-input::placeholder { color: var(--ut-gray-mid); }
+.ut-input:hover { border-color: #ccc; }
+.ut-input:focus { border-color: var(--ut-orange); box-shadow: 0 0 0 4px rgba(255,90,31,.15); }
+
+/* Input + eye button behave as one field */
+.ut-group {
+  display: flex; align-items: stretch;
+  background: #fff; border: 1.5px solid var(--ut-gray-light); border-radius: .5rem;
+  transition: border-color .15s, box-shadow .15s;
+}
+.ut-group:hover { border-color: #ccc; }
+.ut-group:focus-within { border-color: var(--ut-orange); box-shadow: 0 0 0 4px rgba(255,90,31,.15); }
+.ut-group .ut-input,
+.ut-group .ut-input:hover,
+.ut-group .ut-input:focus { border: 0; box-shadow: none; background: transparent; flex: 1 1 auto; min-width: 0; }
+.ut-eye {
+  border: 0; background: transparent; padding: 0 .875rem;
+  color: var(--ut-gray-mid);
+}
+.ut-eye:hover { color: var(--ut-black); }
+
+/* Checkbox */
+.ut-check .form-check-input { width: 1rem; height: 1rem; margin-top: .15rem; border-color: var(--ut-gray-mid); }
+.ut-check .form-check-input:checked { background-color: var(--ut-orange); border-color: var(--ut-orange); }
+.ut-check .form-check-input:focus { border-color: var(--ut-orange); box-shadow: 0 0 0 4px rgba(255,90,31,.15); }
+.ut-check .form-check-label { font-size: .8125rem; color: var(--ut-gray-mid); }
+
+/* Links */
+.ut-link { color: var(--ut-orange); font-weight: 500; text-decoration: none; }
+.ut-link:hover { color: var(--ut-orange-dark); text-decoration: underline; }
+
+/* "or continue with" divider */
+.ut-divider { display: flex; align-items: center; gap: 1rem; font-size: .6875rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ut-gray-mid); }
+.ut-divider::before, .ut-divider::after { content: ''; flex: 1; height: 1px; background: var(--ut-gray-light); }
+
+/* Password hint (signup) */
+.ut-hint { font-size: .75rem; color: var(--ut-gray-mid); margin-top: .375rem; }
+
+/* ============================================================
+   BUTTONS
+   `.btn.btn-xxx` (two classes) beats Bootstrap's `.btn` (one class), so these win
+   regardless of stylesheet order. They use Bootstrap's own --bs-btn-* variables,
+   which also gives correct hover, active, focus and disabled states.
+   ============================================================ */
+
+/* Primary orange button */
+.btn.btn-ut {
+  --bs-btn-padding-y: .875rem;
+  --bs-btn-padding-x: 1.5rem;
+  --bs-btn-font-family: 'Anton', sans-serif;
+  --bs-btn-font-size: 1rem;
+  --bs-btn-border-radius: .5rem;
+
+  --bs-btn-color: var(--ut-white);
+  --bs-btn-bg: var(--ut-orange);
+  --bs-btn-border-color: var(--ut-orange);
+
+  --bs-btn-hover-color: var(--ut-white);
+  --bs-btn-hover-bg: var(--ut-orange-dark);
+  --bs-btn-hover-border-color: var(--ut-orange-dark);
+
+  --bs-btn-active-color: var(--ut-white);
+  --bs-btn-active-bg: var(--ut-orange-dark);
+  --bs-btn-active-border-color: var(--ut-orange-dark);
+
+  --bs-btn-disabled-color: var(--ut-white);
+  --bs-btn-disabled-bg: var(--ut-orange);
+  --bs-btn-disabled-border-color: var(--ut-orange);
+
+  --bs-btn-focus-shadow-rgb: 255, 90, 31;
+
+  letter-spacing: .12em;
+  transition: transform .15s, background-color .15s, border-color .15s;
+}
+.btn.btn-ut:hover,
+.btn.btn-ut:focus-visible { transform: translateY(-1px); }
+.btn.btn-ut:active { transform: none; }
+
+/* Ghost button for dark backgrounds (hero) */
+.btn.btn-ut-ghost {
+  --bs-btn-padding-y: .875rem;
+  --bs-btn-padding-x: 1.5rem;
+  --bs-btn-font-family: 'Anton', sans-serif;
+  --bs-btn-font-size: 1rem;
+  --bs-btn-border-width: 1.5px;
+  --bs-btn-border-radius: .5rem;
+
+  --bs-btn-color: var(--ut-white);
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: rgba(245, 245, 240, .6);
+
+  --bs-btn-hover-color: var(--ut-black);
+  --bs-btn-hover-bg: var(--ut-white);
+  --bs-btn-hover-border-color: var(--ut-white);
+
+  --bs-btn-active-color: var(--ut-black);
+  --bs-btn-active-bg: var(--ut-white);
+  --bs-btn-active-border-color: var(--ut-white);
+
+  --bs-btn-focus-shadow-rgb: 245, 245, 240;
+
+  letter-spacing: .12em;
+}
+
+/* Outline button for light backgrounds */
+.btn.btn-ut-outline {
+  --bs-btn-padding-y: .75rem;
+  --bs-btn-padding-x: 1rem;
+  --bs-btn-font-size: .875rem;
+  --bs-btn-font-weight: 500;
+  --bs-btn-border-width: 1.5px;
+  --bs-btn-border-radius: .5rem;
+
+  --bs-btn-color: var(--ut-black);
+  --bs-btn-bg: #fff;
+  --bs-btn-border-color: var(--ut-gray-light);
+
+  --bs-btn-hover-color: var(--ut-black);
+  --bs-btn-hover-bg: #fafafa;
+  --bs-btn-hover-border-color: var(--ut-black);
+
+  --bs-btn-active-color: var(--ut-black);
+  --bs-btn-active-bg: #f2f2f2;
+  --bs-btn-active-border-color: var(--ut-black);
+
+  --bs-btn-focus-shadow-rgb: 13, 13, 13;
+}
+
+/* ============================================================
+   FORM ERRORS
+   ============================================================ */
+
+/* Message under a field: <app-form-error>, <p class="msg"> or <span class="msg"> */
+.msg {
+  display: flex;
+  align-items: center;
+  gap: .375rem;
+  margin: .375rem 0 0;
+  font-size: .75rem;
+  font-weight: 500;
+  letter-spacing: .02em;
+  line-height: 1.3;
+  color: var(--ut-error);
+  animation: ut-msg-in .15s ease-out;
+}
+
+/* small "!" badge before the text */
+.msg::before {
+  content: '!';
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: .875rem;
+  height: .875rem;
+  border-radius: 50%;
+  background: var(--ut-error);
+  color: #fff;
+  font-size: .625rem;
+  font-weight: 700;
+}
+
+@keyframes ut-msg-in {
+  from { opacity: 0; transform: translateY(-2px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Red border on invalid fields once touched (Angular adds ng-invalid / ng-touched itself) */
+.ut-input.ng-invalid.ng-touched,
+.ut-input.ng-invalid.ng-touched:hover {
+  border-color: var(--ut-error);
+}
+.ut-input.ng-invalid.ng-touched:focus {
+  border-color: var(--ut-error);
+  box-shadow: 0 0 0 4px rgba(217, 45, 32, .15);
+}
+
+/* ============================================================
+   STORE PAGES (navbar, home, footer)
+   ============================================================ */
+
+/* ---------- Navbar ---------- */
+.ut-nav-link {
+  position: relative;
+  padding: .5rem .875rem !important;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(245, 245, 240, .75) !important;
+}
+.ut-nav-link::after {
+  content: '';
+  position: absolute; left: .875rem; right: .875rem; bottom: .125rem;
+  height: 2px; background: var(--ut-orange);
+  transform: scaleX(0); transform-origin: left; transition: transform .2s;
+}
+.ut-nav-link:hover, .ut-nav-link.active { color: var(--ut-white) !important; }
+.ut-nav-link:hover::after, .ut-nav-link.active::after { transform: scaleX(1); }
+
+/* orange focus ring instead of Bootstrap's blue box */
+.nav-link.ut-nav-link:focus-visible {
+  outline: 2px solid var(--ut-orange);
+  outline-offset: -2px;
+  box-shadow: none;
+}
+
+.ut-icon-btn { color: var(--ut-white); font-size: 1.2rem; line-height: 1; transition: color .15s; }
+.ut-icon-btn:hover { color: var(--ut-orange); }
+
+/* ---------- Home hero ---------- */
+.ut-store-hero {
+  position: relative; display: flex; align-items: center;
+  min-height: 78vh; overflow: hidden; background: var(--ut-black);
+}
+.ut-store-hero > img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: center 20%;
+}
+.ut-store-hero::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(13,13,13,.88) 0%, rgba(13,13,13,.5) 55%, rgba(13,13,13,.15) 100%);
+}
+.ut-store-hero > .container { position: relative; z-index: 1; }
+.ut-store-hero .ut-hero-headline { font-size: clamp(3rem, 8vw, 6rem); }
+
+/* ---------- Category tiles ---------- */
+.ut-tile {
+  position: relative; display: flex; align-items: flex-end; justify-content: space-between;
+  min-height: 280px; padding: 1.5rem; overflow: hidden;
+  border-radius: .75rem; color: var(--ut-white); text-decoration: none;
+  background: linear-gradient(160deg, #222 0%, var(--ut-black) 100%);
+  transition: transform .2s;
+}
+.ut-tile::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+  background: var(--ut-orange); transform: scaleX(0); transform-origin: left; transition: transform .25s;
+}
+.ut-tile:hover { transform: translateY(-4px); color: var(--ut-white); }
+.ut-tile:hover::before { transform: scaleX(1); }
+.ut-tile-title { font-family: 'Anton', sans-serif; font-size: 2.25rem; letter-spacing: .06em; line-height: 1; }
+
+/* ---------- Product cards ---------- */
+.ut-product-img { overflow: hidden; border-radius: .75rem; background: var(--ut-soft); }
+.ut-product-img img { transition: transform .3s; }
+.ut-product:hover .ut-product-img img { transform: scale(1.04); }
+
+/* ---------- Footer ---------- */
+.ut-footer-rule { border-color: rgba(245, 245, 240, .12) !important; }
+.ut-footer-link { color: rgba(245, 245, 240, .65); font-size: .875rem; text-decoration: none; transition: color .15s; }
+.ut-footer-link:hover { color: var(--ut-orange); }
+.ut-social {
+  display: inline-grid; place-items: center; width: 2.25rem; height: 2.25rem;
+  border: 1px solid rgba(245, 245, 240, .25); border-radius: 50%;
+  color: var(--ut-white); text-decoration: none; transition: background-color .15s, border-color .15s;
+}
+.ut-social:hover { background: var(--ut-orange); border-color: var(--ut-orange); color: var(--ut-white); }
+
+/* ============================================================
+   ADMIN AREA: paste at the bottom of styles.css
+   ============================================================ */
+
+.min-w-0 { min-width: 0; }
+
+/* ---------- Sidebar ----------
+   Below lg it is a Bootstrap offcanvas drawer; from lg up it is a sticky column
+   (260px, or 76px icons-only when collapsed). */
+.ut-sidebar { --bs-offcanvas-width: 280px; }
+
+@media (min-width: 992px) {
+  .offcanvas-lg.ut-sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 1030;              /* above the sticky topbar so the collapse button is never covered */
+    flex: 0 0 260px;
+    width: 260px !important;
+    height: 100vh !important;
+    transition: flex-basis .2s ease, width .2s ease;
+  }
+  .offcanvas-lg.ut-sidebar.ut-collapsed { flex-basis: 76px; width: 76px !important; }
+
+  /* collapsed = icons only */
+  .ut-collapsed .ut-side-label,
+  .ut-collapsed .ut-side-badge { display: none; }
+  .ut-collapsed .ut-side-link { justify-content: center; gap: 0; padding-inline: 0; }
+  .ut-collapsed .ut-brand-link { justify-content: center; }
+  .ut-collapsed .ut-side-section {
+    height: 1px; margin: 1rem .75rem; padding: 0;
+    font-size: 0; background: rgba(245, 245, 240, .12);
+  }
+}
+
+/* round collapse button on the sidebar's right edge */
+.ut-collapse-btn {
+  position: absolute;
+  top: 1.75rem;
+  right: -.75rem;
+  z-index: 2;
+  place-items: center;
+  width: 1.5rem; height: 1.5rem; padding: 0;
+  border: 1px solid rgba(245, 245, 240, .2);
+  border-radius: 50%;
+  background: var(--ut-black);
+  color: var(--ut-white);
+  font-size: .625rem;
+  transition: background-color .15s, border-color .15s;
+}
+.ut-collapse-btn:hover { background: var(--ut-orange); border-color: var(--ut-orange); }
+.ut-collapse-btn:focus-visible { outline: 2px solid var(--ut-orange); outline-offset: 2px; }
+
+.ut-side-brand-sub {
+  font-size: .5625rem;
+  font-weight: 500;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(245, 245, 240, .45);
+}
+
+.ut-side-section {
+  margin: 1.25rem 0 .5rem;
+  padding: 0 1rem;
+  font-size: .625rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(245, 245, 240, .4);
+}
+
+.ut-side-link {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .65rem 1rem;
+  border-radius: .5rem;
+  font-size: .875rem;
+  font-weight: 500;
+  color: rgba(245, 245, 240, .65);
+  text-decoration: none;
+  transition: background-color .15s, color .15s;
+}
+.ut-side-link i {
+  flex: none;
+  width: 1.25rem;
+  font-size: 1.05rem;
+  text-align: center;
+  color: rgba(245, 245, 240, .5);
+  transition: color .15s;
+}
+.ut-side-link:hover { background: rgba(245, 245, 240, .06); color: var(--ut-white); }
+.ut-side-link:hover i { color: var(--ut-white); }
+.ut-side-link:focus-visible { outline: 2px solid var(--ut-orange); outline-offset: -2px; }
+
+/* active page: solid orange pill */
+.ut-side-link.active {
+  background: var(--ut-orange);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(255, 90, 31, .35);
+}
+.ut-side-link.active i { color: #fff; }
+
+/* a <button> that looks like a sidebar link (Logout) */
+button.ut-side-link { width: 100%; border: 0; background: transparent; text-align: left; }
+
+.ut-side-badge {
+  min-width: 1.25rem;
+  padding: .125rem .45rem;
+  border-radius: 999px;
+  background: rgba(245, 245, 240, .12);
+  color: var(--ut-white);
+  font-size: .6875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+}
+.ut-side-link.active .ut-side-badge { background: rgba(255, 255, 255, .25); }
+
+.ut-side-sub { font-size: .6875rem; font-weight: 400; color: rgba(245, 245, 240, .4); }
+
+/* ---------- Topbar ---------- */
+.ut-topbar { height: 64px; }
+
+.ut-topbar-btn {
+  position: relative;
+  display: grid; place-items: center;
+  width: 2.5rem; height: 2.5rem;
+  border: 0; border-radius: .5rem;
+  background: transparent;
+  color: var(--ut-gray-dark);
+  font-size: 1.15rem;
+  transition: background-color .15s;
+}
+.ut-topbar-btn:hover { background: var(--ut-soft); }
+
+.ut-notify-badge {
+  position: absolute; top: .1rem; right: .05rem;
+  display: grid; place-items: center;
+  min-width: 1rem; height: 1rem; padding: 0 .25rem;
+  border-radius: 999px;
+  background: var(--ut-orange); color: #fff;
+  font-size: .625rem; font-weight: 700; line-height: 1;
+}
+
+.ut-profile-btn {
+  display: flex; align-items: center; gap: .625rem;
+  padding: .25rem .5rem;
+  border: 0; border-radius: .5rem;
+  background: transparent;
+  color: var(--ut-black);
+  transition: background-color .15s;
+}
+.ut-profile-btn:hover,
+.ut-profile-btn[aria-expanded="true"] { background: var(--ut-soft); }
+.ut-profile-role { font-size: .6875rem; color: var(--ut-gray-mid); }
+
+.ut-dropdown { min-width: 14rem; padding: .5rem; border-radius: .75rem; }
+.ut-dropdown .dropdown-item { border-radius: .5rem; font-size: .875rem; }
+.ut-dropdown .dropdown-item:active { background: var(--ut-orange); color: #fff; }
+
+.ut-avatar {
+  flex: none;
+  display: inline-grid; place-items: center;
+  width: 2.25rem; height: 2.25rem;
+  border-radius: 50%;
+  background: var(--ut-orange); color: var(--ut-white);
+  font-family: 'Anton', sans-serif; font-size: .875rem; letter-spacing: .05em;
+}
+.ut-avatar-square { border-radius: .5rem; }
+
+/* ---------- Cards, stats, tables ---------- */
+.ut-card {
+  background: #fff;
+  border: 1px solid var(--ut-gray-light);
+  border-radius: .75rem;
+}
+
+.ut-stat-icon {
+  display: grid; place-items: center;
+  width: 2.5rem; height: 2.5rem;
+  border-radius: .5rem;
+  background: rgba(255, 90, 31, .12);
+  color: var(--ut-orange);
+  font-size: 1.15rem;
+}
+
+.ut-table { --bs-table-bg: transparent; margin-bottom: 0; }
+.ut-table th {
+  padding: .75rem 1rem;
+  border-bottom-color: var(--ut-gray-light);
+  font-size: .6875rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ut-gray-mid);
+  white-space: nowrap;
+}
+.ut-table td { padding: .875rem 1rem; border-bottom-color: var(--ut-gray-light); font-size: .875rem; vertical-align: middle; }
+.ut-table tbody tr:last-child td { border-bottom: 0; }
+
+/* order / product status pills */
+.ut-status {
+  display: inline-block;
+  padding: .25rem .625rem;
+  border-radius: 999px;
+  font-size: .6875rem; font-weight: 600; letter-spacing: .04em;
+}
+.ut-status-paid      { background: rgba(25, 135, 84, .12); color: #146c43; }
+.ut-status-pending   { background: rgba(255, 90, 31, .12); color: var(--ut-orange-dark); }
+.ut-status-shipped   { background: rgba(13, 13, 13, .08);  color: var(--ut-black); }
+.ut-status-cancelled { background: rgba(217, 45, 32, .12); color: var(--ut-error); }
+
+/* ============================================================
+   ADMIN SIDEBAR: fit without a scrollbar
+   Scoped to .ut-sidebar so the account sidebar (.ut-account-sidebar) keeps the normal link size.
+   Link padding and font size shrink with the window height, so all items always fit.
+   ============================================================ */
+
+.ut-sidebar {
+  --ut-side-pad: clamp(.25rem, calc(2.2vh - .5rem), .65rem);   /* vertical padding inside each link */
+  --ut-side-font: clamp(.75rem, 1.6vh, .875rem);               /* link text size */
+}
+
+.ut-sidebar .ut-side-nav { min-height: 0; }                    /* lets the flex column shrink */
+
+.ut-sidebar .ut-side-link {
+  padding-block: var(--ut-side-pad, .65rem);
+  font-size: var(--ut-side-font, .875rem);
+  line-height: 1.25;
+}
+.ut-sidebar .ut-side-link i { font-size: calc(var(--ut-side-font, .875rem) * 1.2); }
+
+/* section labels (the collapsed state keeps its own divider rule) */
+.ut-sidebar:not(.ut-collapsed) .ut-side-section { margin: clamp(.4rem, 1.6vh, 1.25rem) 0 .25rem; }
+.ut-sidebar:not(.ut-collapsed) .ut-side-nav > .ut-side-section:first-child { margin-top: .25rem; }
+
+/* collapse chevron points the other way when collapsed */
+.ut-collapse-btn i { transition: transform .2s; }
+.ut-collapsed .ut-collapse-btn i { transform: rotate(180deg); }
+
+/* Very short windows (under ~540px tall) cannot fit 11 links, so scroll quietly instead of cutting items off */
+@media (max-height: 540px) {
+  .ut-sidebar .ut-side-nav { overflow-y: auto; scrollbar-width: none; }
+  .ut-sidebar .ut-side-nav::-webkit-scrollbar { display: none; }
+}
+
+.ut-settings-tab {
+  flex: none;
+  padding: .65rem 1rem;
+  font-size: .8125rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--ut-gray-mid);
+  text-decoration: none;
+  border-bottom: 2px solid var(--ut-gray-light);
+  transition: color .15s, background-color .15s, border-color .15s;
+}
+.ut-settings-tab:hover { color: var(--ut-black); }
+.ut-settings-tab.active {
+  color: var(--ut-orange);
+  font-weight: 700;
+  border-color: var(--ut-orange);
+  background: rgba(255, 90, 31, .05);
+}
+
+@media (min-width: 768px) {            /* vertical list: the line moves to the left edge */
+  .ut-settings-tab { border-bottom: 0; border-left: 2px solid var(--ut-gray-light); }
+}
+
+/* ============================================================
+   PROFILE PAGES (customer + admin): paste at the bottom of styles.css
+   ============================================================ */
+
+/* small heading used at the top of cards */
+.ut-card-title {
+  font-family: 'Anton', sans-serif;
+  font-weight: 400;
+  font-size: .95rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+/* big avatar (works on both a <span> with an initial and an <img>) */
+.ut-avatar-lg { width: 5rem; height: 5rem; font-size: 1.75rem; }
+img.ut-avatar { object-fit: cover; }
+
+/* small rounded tags: Home / Work / Default / Admin */
+.ut-tag {
+  display: inline-flex; align-items: center; gap: .375rem;
+  padding: .25rem .625rem;
+  border-radius: 999px;
+  background: var(--ut-soft); color: var(--ut-gray-dark);
+  font-size: .6875rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+}
+.ut-tag-orange { background: rgba(255, 90, 31, .12); color: var(--ut-orange-dark); }
+
+/* address card */
+.ut-address {
+  height: 100%;
+  padding: 1.25rem;
+  background: #fff;
+  border: 1.5px solid var(--ut-gray-light);
+  border-radius: .75rem;
+  transition: border-color .15s;
+}
+.ut-address:hover { border-color: var(--ut-black); }
+.ut-address.is-default { border-color: var(--ut-orange); }
+
+/* compact buttons: the .btn-ut padding rules are more specific than Bootstrap's .btn-sm, so size them here */
+.btn.btn-ut.btn-sm         { --bs-btn-padding-y: .5rem;  --bs-btn-padding-x: 1rem;  --bs-btn-font-size: .8125rem; }
+.btn.btn-ut-outline.btn-sm { --bs-btn-padding-y: .4rem;  --bs-btn-padding-x: .75rem; --bs-btn-font-size: .8125rem; }
+.flex-none { flex: none; }
+
+/* <select class="form-select ut-input">: keep room for the dropdown arrow */
+.form-select.ut-input { padding-right: 2.5rem; }
+
+/* modals: white card instead of the cream page color */
+.modal { --bs-modal-bg: #fff; }
+.modal-content { border: 0; border-radius: .75rem; }
+
+/* ============================================================
+   ACCOUNT AREA (customer dashboard): paste at the bottom of styles.css
+   Builds on the ut-admin.css block (ut-side-link, ut-table, ut-card, ut-avatar, ut-status, ut-dropdown).
+   ============================================================ */
+
+/* ---------- Top navbar ---------- */
+.ut-account-nav { height: 56px; }
+
+.ut-account-nav-link {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: rgba(245, 245, 240, .75);
+  text-decoration: none;
+  transition: color .15s;
+}
+.ut-account-nav-link:hover { color: var(--ut-white); }
+.ut-account-nav-link.sale { color: var(--ut-orange); }
+.ut-account-nav-link.sale:hover { color: var(--ut-orange-dark); }
+
+/* ---------- Sidebar ----------
+   Below lg: offcanvas drawer. From lg up: sticky column that sits under the 56px navbar. */
+.ut-account-sidebar { --bs-offcanvas-width: 280px; }
+
+@media (min-width: 992px) {
+  .offcanvas-lg.ut-account-sidebar {
+    position: sticky;
+    top: 56px;
+    flex: 0 0 250px;
+    width: 250px !important;
+    height: calc(100vh - 56px) !important;
+  }
+}
+
+.ut-user-card {
+  background: rgba(245, 245, 240, .05);
+  border: 1px solid rgba(245, 245, 240, .1);
+  border-radius: .75rem;
+}
+
+.ut-member-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  padding: .2rem .5rem;
+  border-radius: .375rem;
+  background: rgba(255, 90, 31, .18);
+  color: var(--ut-orange);
+  font-size: .5625rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+/* account sidebar: active page is orange text on a soft orange wash (not a solid pill like the admin one) */
+.ut-account-sidebar .ut-side-link.active {
+  background: rgba(255, 90, 31, .12);
+  color: var(--ut-orange);
+  box-shadow: none;
+}
+.ut-account-sidebar .ut-side-link.active i { color: var(--ut-orange); }
+
+/* ---------- Filter pills ---------- */
+.ut-filter {
+  padding: .3rem .875rem;
+  border: 1px solid var(--ut-gray-light);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ut-gray-mid);
+  font-size: .6875rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-decoration: none;
+  transition: color .15s, border-color .15s, background-color .15s;
+}
+.ut-filter:hover { color: var(--ut-black); border-color: #ccc; }
+.ut-filter.active { background: var(--ut-black); border-color: var(--ut-black); color: var(--ut-white); }
+
+/* ---------- Order status pills (extra to the ones in ut-admin.css) ---------- */
+.ut-status-delivered  { background: rgba(25, 135, 84, .12);  color: #146c43; }
+.ut-status-transit    { background: rgba(111, 66, 193, .12); color: #59359a; }
+.ut-status-processing { background: rgba(13, 110, 253, .12); color: #0a58ca; }
+
+/* ---------- Small orange outline button ("Details") ---------- */
+.btn.btn-ut-line {
+  --bs-btn-padding-y: .25rem;
+  --bs-btn-padding-x: .75rem;
+  --bs-btn-font-size: .75rem;
+  --bs-btn-border-radius: .375rem;
+
+  --bs-btn-color: var(--ut-orange);
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: var(--ut-orange);
+
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--ut-orange);
+  --bs-btn-hover-border-color: var(--ut-orange);
+
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--ut-orange-dark);
+  --bs-btn-active-border-color: var(--ut-orange-dark);
+
+  --bs-btn-focus-shadow-rgb: 255, 90, 31;
+}
+
+
+/* ============================================================
+   ACCOUNT ORDERS + ADDRESSES pages: paste at the bottom of styles.css (after profile.css)
+   ============================================================ */
+
+/* orders table */
+.ut-order-no { font-size: .875rem; letter-spacing: .04em; white-space: nowrap; }
+.ut-order-items { max-width: 12rem; min-width: 8rem; }
+.ut-orders-table th, .ut-orders-table td { padding-inline: .75rem; }
+.ut-status { white-space: nowrap; }
+
+/* addresses */
+.ut-address-phone { color: var(--ut-gray-mid); }
+.ut-remove-btn { color: var(--ut-gray-mid); }
+.ut-remove-btn:hover { color: var(--ut-error); }
+
+/* dashed "Add new address" tile: same height as the address cards in its row */
+.ut-address-add {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem;
+  width: 100%; height: 100%; min-height: 10rem;
+  background: transparent;
+  border: 1.5px dashed #cfcfc8;
+  border-radius: .75rem;
+  color: var(--ut-gray-mid);
+  transition: border-color .15s, color .15s, background-color .15s;
+}
+.ut-address-add:hover,
+.ut-address-add:focus-visible { border-color: var(--ut-orange); color: var(--ut-orange); background: rgba(255, 90, 31, .04); }
+
+
+/* ============================================================
+   SHOP PAGES: paste at the bottom of styles.css
+   `.pagination.ut-pagination` (two classes) beats Bootstrap's `.pagination`, whatever the load order.
+   ============================================================ */
+
+.pagination.ut-pagination {
+  --bs-pagination-font-size: .8125rem;
+  --bs-pagination-border-radius: .5rem;
+
+  --bs-pagination-color: var(--ut-black);
+  --bs-pagination-bg: #fff;
+  --bs-pagination-border-color: var(--ut-gray-light);
+
+  --bs-pagination-hover-color: var(--ut-orange);
+  --bs-pagination-hover-bg: #fff;
+  --bs-pagination-hover-border-color: var(--ut-orange);
+
+  --bs-pagination-focus-color: var(--ut-orange);
+  --bs-pagination-focus-bg: #fff;
+  --bs-pagination-focus-box-shadow: 0 0 0 .2rem rgba(255, 90, 31, .2);
+
+  --bs-pagination-active-color: var(--ut-white);
+  --bs-pagination-active-bg: var(--ut-black);
+  --bs-pagination-active-border-color: var(--ut-black);
+
+  --bs-pagination-disabled-color: var(--ut-gray-mid);
+  --bs-pagination-disabled-bg: #fff;
+  --bs-pagination-disabled-border-color: var(--ut-gray-light);
+
+  gap: .375rem;
+}
+.pagination.ut-pagination .page-link { border-radius: .5rem; font-weight: 600; }

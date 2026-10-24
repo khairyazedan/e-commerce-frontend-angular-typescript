@@ -1,0 +1,310 @@
+<!-- pages/admin/product-form/product-form.html  (add + edit, rendered inside the admin layout) -->
+<nav aria-label="breadcrumb" class="small text-ut-mid text-uppercase mb-1" style="font-size:.6875rem;letter-spacing:.1em">
+  Admin <span class="mx-1">&rsaquo;</span>
+  <a routerLink="/admin/products" class="text-ut-mid text-decoration-none">Products</a>
+  <span class="mx-1">&rsaquo;</span> <span class="fw-semibold">{{ isEdit ? 'Edit product' : 'Add product' }}</span>
+</nav>
+
+<div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+  <div>
+    <h1 class="ut-title mb-1">{{ isEdit ? 'EDIT PRODUCT' : 'ADD PRODUCT' }}</h1>
+    <p class="text-ut-mid small mb-0">{{ isEdit ? 'Update this item in your catalog' : 'Create a new item for your catalog' }}</p>
+  </div>
+  <a routerLink="/admin/products" class="btn btn-ut-outline"><i class="bi bi-arrow-left me-1"></i> Back to products</a>
+</div>
+
+@if (loading()) {
+  <div class="ut-card p-5 text-center text-ut-mid" aria-busy="true">
+    <div class="spinner-border spinner-border-sm me-2" role="status"></div> Loading product...
+  </div>
+} @else if (loadError()) {
+  <div class="ut-card p-5 text-center">
+    <p class="msg justify-content-center mb-3" role="alert">{{ loadError() }}</p>
+    <a routerLink="/admin/products" class="btn btn-ut">BACK TO PRODUCTS</a>
+  </div>
+} @else {
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <div class="row g-4">
+
+    <!-- ================= LEFT COLUMN ================= -->
+    <div class="col-12 col-xl-8 d-flex flex-column gap-4">
+
+      <!-- Basic information -->
+      <section class="ut-card p-3 p-md-4">
+        <h2 class="ut-card-title mb-3">Basic information</h2>
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="ut-label" for="name">Product name</label>
+            <input type="text" id="name" formControlName="name" class="ut-input form-control" maxlength="150"
+                   placeholder="e.g. After Hours Oversized Tee">
+            @if (f.name.touched && f.name.hasError('required')) { <p class="msg">Product name is required</p> }
+          </div>
+          <div class="col-12">
+            <label class="ut-label" for="slug">Slug</label>
+            <div class="ut-group align-items-center">
+              <span class="ps-3 text-ut-mid small">/products/</span>
+              <input type="text" id="slug" formControlName="slug" class="ut-input form-control"
+                     placeholder="generated from the name if empty">
+            </div>
+            @if (f.slug.touched && f.slug.hasError('pattern')) {
+              <p class="msg">Use lowercase letters, numbers and hyphens only</p>
+            } @else {
+              <div class="ut-hint">Lowercase letters, numbers and hyphens only.</div>
+            }
+          </div>
+          <div class="col-12">
+            <label class="ut-label" for="description">Description</label>
+            <textarea id="description" formControlName="description" rows="5" class="ut-input form-control"
+                      placeholder="Describe the fit, feel and details of this product"></textarea>
+            @if (f.description.touched && f.description.hasError('required')) { <p class="msg">Description is required</p> }
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="ut-label" for="brand">Brand</label>
+            <input type="text" id="brand" formControlName="brand" class="ut-input form-control" placeholder="Urban Thread">
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="ut-label" for="gender">Gender</label>
+            <select id="gender" formControlName="gender" class="form-select ut-input">
+              <option value="">Select gender</option>
+              <option value="men">Men</option>
+              <option value="women">Women</option>
+              <option value="unisex">Unisex</option>
+              <option value="kids">Kids</option>
+              <option value="boys">Boys</option>
+              <option value="girls">Girls</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pricing & stock -->
+      <section class="ut-card p-3 p-md-4">
+        <h2 class="ut-card-title mb-3">Pricing &amp; stock</h2>
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <label class="ut-label" for="price">Price</label>
+            <div class="ut-group align-items-center">
+              <input type="number" id="price" formControlName="price" class="ut-input form-control" min="0" step="0.01" placeholder="0.00">
+              <span class="pe-3 text-ut-mid small fw-semibold">EGP</span>
+            </div>
+            @if (f.price.touched && f.price.hasError('required')) { <p class="msg">Price is required</p> }
+            @else if (f.price.touched && f.price.hasError('min')) { <p class="msg">Price cannot be negative</p> }
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="ut-label" for="stockQuantity">Stock quantity</label>
+            <input type="number" id="stockQuantity" formControlName="stockQuantity" class="ut-input form-control" min="0" step="1">
+            @if (f.stockQuantity.touched && f.stockQuantity.invalid) {
+              <p class="msg">Stock must be a whole number, 0 or more</p>
+            } @else {
+              <div class="ut-hint">Whole units only.</div>
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- Images (ImageKit) -->
+      <section class="ut-card p-3 p-md-4">
+        <h2 class="ut-card-title mb-3">Images</h2>
+        <div class="row g-3">
+
+          <!-- featured -->
+          <div class="col-12 col-md-5">
+            <div class="ut-label">Featured image</div>
+            @if (featuredImageUrl()) {
+              <div class="position-relative">
+                <img [src]="featuredImageUrl()" alt="Featured image" class="w-100 rounded-3 object-fit-cover" style="aspect-ratio:3/4">
+                <button type="button" class="btn btn-sm btn-light position-absolute top-0 end-0 m-2" aria-label="Remove featured image"
+                        (click)="removeFeatured()"><i class="bi bi-x-lg"></i></button>
+              </div>
+            } @else {
+              <label for="featuredImage" class="ut-address-add" style="min-height:12rem;cursor:pointer">
+                @if (uploading() === 'featured') {
+                  <span class="spinner-border spinner-border-sm" role="status"></span>
+                  <span class="small">Uploading...</span>
+                } @else {
+                  <i class="bi bi-image fs-3"></i>
+                  <span class="small fw-semibold">Upload main image</span>
+                  <span class="small">PNG or JPG, up to 5 MB</span>
+                }
+              </label>
+              <input type="file" id="featuredImage" class="d-none" accept="image/*"
+                     [disabled]="uploading() !== null" (change)="onFeatured($event)">
+            }
+          </div>
+
+          <!-- gallery -->
+          <div class="col-12 col-md-7">
+            <div class="ut-label">Gallery images ({{ galleryImages().length }}/{{ maxGallery }})</div>
+            <div class="row row-cols-3 g-2">
+              @for (url of galleryImages(); track url; let i = $index) {
+                <div class="col">
+                  <div class="position-relative">
+                    <img [src]="url" alt="Gallery image {{ i + 1 }}" class="w-100 rounded-3 object-fit-cover" style="aspect-ratio:1/1">
+                    <button type="button" class="btn btn-sm btn-light position-absolute top-0 end-0 m-1 py-0 px-1"
+                            [attr.aria-label]="'Remove gallery image ' + (i + 1)" (click)="removeGallery(i)"><i class="bi bi-x-lg"></i></button>
+                  </div>
+                </div>
+              }
+              @if (galleryImages().length < maxGallery) {
+                <div class="col">
+                  <label for="galleryImagesInput" class="ut-address-add" style="min-height:0;aspect-ratio:1/1;cursor:pointer">
+                    @if (uploading() === 'gallery') {
+                      <span class="spinner-border spinner-border-sm" role="status"></span>
+                    } @else {
+                      <i class="bi bi-plus-lg fs-4"></i>
+                      <span class="small">Add</span>
+                    }
+                  </label>
+                  <input type="file" id="galleryImagesInput" class="d-none" accept="image/*" multiple
+                         [disabled]="uploading() !== null" (change)="onGallery($event)">
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- size chart -->
+          <div class="col-12">
+            <div class="ut-label">Size chart image</div>
+            @if (sizeChartImage()) {
+              <div class="d-flex align-items-center gap-3">
+                <img [src]="sizeChartImage()" alt="Size chart" width="96" height="96" class="rounded-3 object-fit-cover">
+                <button type="button" class="btn btn-ut-outline btn-sm" (click)="removeSizeChart()"><i class="bi bi-x-lg me-1"></i>Remove</button>
+              </div>
+            } @else {
+              <div class="d-flex align-items-center gap-2">
+                <input type="file" id="sizeChartInput" class="ut-input form-control" accept="image/*"
+                       [disabled]="uploading() !== null" (change)="onSizeChart($event)">
+                @if (uploading() === 'sizeChart') { <span class="spinner-border spinner-border-sm" role="status"></span> }
+              </div>
+            }
+          </div>
+
+          @if (imageError()) {
+            <div class="col-12"><p class="msg mt-0" role="alert">{{ imageError() }}</p></div>
+          }
+        </div>
+      </section>
+
+      <!-- Product details -->
+      <section class="ut-card p-3 p-md-4">
+        <h2 class="ut-card-title mb-3">Product details</h2>
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <label class="ut-label" for="fit">Fit</label>
+            <select id="fit" formControlName="fit" class="form-select ut-input">
+              <option value="">Select fit</option>
+              <option value="slim">Slim</option>
+              <option value="oversized">Oversized</option>
+              <option value="relaxed">Relaxed</option>
+              <option value="regular">Regular</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="ut-label" for="material">Material</label>
+            <input type="text" id="material" formControlName="material" class="ut-input form-control" placeholder="e.g. 100% cotton, 240 GSM">
+          </div>
+          <div class="col-12">
+            <label class="ut-label" for="careInstructions">Care instructions</label>
+            <textarea id="careInstructions" formControlName="careInstructions" rows="3" class="ut-input form-control"
+                      placeholder="e.g. Machine wash cold. Do not tumble dry."></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEO -->
+      <section class="ut-card p-3 p-md-4">
+        <h2 class="ut-card-title mb-3">Search engine listing</h2>
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="ut-label" for="metaTitle">Meta title</label>
+            <input type="text" id="metaTitle" formControlName="metaTitle" class="ut-input form-control" maxlength="70"
+                   placeholder="Shown as the page title in search results">
+            <div class="ut-hint">{{ f.metaTitle.value.length }}/70 characters</div>
+          </div>
+          <div class="col-12">
+            <label class="ut-label" for="metaDescription">Meta description</label>
+            <textarea id="metaDescription" formControlName="metaDescription" rows="3" class="ut-input form-control" maxlength="160"
+                      placeholder="A short summary shown under the title in search results"></textarea>
+            <div class="ut-hint">{{ f.metaDescription.value.length }}/160 characters</div>
+          </div>
+          <div class="col-12">
+            <label class="ut-label" for="keywords">Keywords</label>
+            <input type="text" id="keywords" formControlName="keywords" class="ut-input form-control"
+                   placeholder="oversized tee, streetwear, cotton">
+            <div class="ut-hint">Separate keywords with commas.</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================= RIGHT COLUMN ================= -->
+    <div class="col-12 col-xl-4">
+      <div class="d-flex flex-column gap-4 position-xl-sticky" style="top:5rem">
+
+        <section class="ut-card p-3 p-md-4">
+          <h2 class="ut-card-title mb-3">Publishing</h2>
+          <label class="ut-label" for="status">Status</label>
+          <select id="status" formControlName="status" class="form-select ut-input">
+            <option value="draft">Draft</option>
+            <option value="active">Active</option>
+            <option value="archived">Archived</option>
+          </select>
+          <div class="ut-hint">Only active products show in the store.</div>
+
+          <hr class="my-3">
+
+          <div class="ut-check form-check form-switch d-flex align-items-center justify-content-between ps-0 mb-3">
+            <label class="form-check-label text-dark fw-semibold" for="isAvailable">
+              Available to buy
+              <span class="d-block text-ut-mid fw-normal" style="font-size:.75rem">Customers can add it to their cart</span>
+            </label>
+            <input class="form-check-input ms-3 flex-none" type="checkbox" role="switch" id="isAvailable" formControlName="isAvailable"
+                   style="width:2.5rem;height:1.25rem;margin-top:0">
+          </div>
+
+          <div class="ut-check form-check form-switch d-flex align-items-center justify-content-between ps-0">
+            <label class="form-check-label text-dark fw-semibold" for="isFeatured">
+              Featured product
+              <span class="d-block text-ut-mid fw-normal" style="font-size:.75rem">Show it on the store home page</span>
+            </label>
+            <input class="form-check-input ms-3 flex-none" type="checkbox" role="switch" id="isFeatured" formControlName="isFeatured"
+                   style="width:2.5rem;height:1.25rem;margin-top:0">
+          </div>
+        </section>
+
+        <section class="ut-card p-3 p-md-4">
+          <h2 class="ut-card-title mb-3">Organization</h2>
+          <div class="mb-3">
+            <label class="ut-label" for="category">Category</label>
+            <select id="category" formControlName="category" class="form-select ut-input">
+              <option value="" disabled>Select category</option>
+              @for (c of categories(); track c._id) {
+                <option [value]="c._id">{{ c.name }}</option>
+              }
+            </select>
+            @if (f.category.touched && f.category.hasError('required')) { <p class="msg">Choose a category</p> }
+            @if (categories().length === 0) { <div class="ut-hint">No categories loaded yet.</div> }
+          </div>
+          <div>
+            <label class="ut-label" for="subCategory">Sub-category</label>
+            <input type="text" id="subCategory" formControlName="subCategory" class="ut-input form-control" placeholder="e.g. Graphic tees">
+          </div>
+        </section>
+
+        <section class="ut-card p-3 p-md-4 d-grid gap-2">
+          @if (submitError()) { <p class="msg mt-0 mb-1" role="alert">{{ submitError() }}</p> }
+          <button type="submit" class="btn btn-ut" [disabled]="saving() || uploading() !== null">
+            @if (saving()) {
+              <span class="spinner-border spinner-border-sm me-2" role="status"></span>SAVING...
+            } @else {
+              <i class="bi bi-check-lg me-1"></i> {{ isEdit ? 'SAVE CHANGES' : 'SAVE PRODUCT' }}
+            }
+          </button>
+          <a routerLink="/admin/products" class="btn btn-ut-outline">Cancel</a>
+        </section>
+      </div>
+    </div>
+
+  </div>
+</form>
+}
